@@ -1,8 +1,9 @@
 <?php
 session_start();
-require __DIR__ . '/db.php'; // gyĂ¶kĂ©rben lĂ©vĹ‘ db.php
+require __DIR__ . '/db.php'; // gyökérben lévő db.php
 
-$qid = 1; // alapĂ©rtelmezett
+// Lekérjük a legutolsó kérdés qid-jét a navigációs sávhoz
+$qid = 1; // alapértelmezett
 $latest = $conn->query("SELECT qid FROM question ORDER BY qid DESC LIMIT 1");
 if ($latest && $latest->num_rows > 0) {
   $qid = $latest->fetch_assoc()['qid'];
@@ -12,7 +13,7 @@ if ($latest && $latest->num_rows > 0) {
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>SzavazĂˇs kezdĹ‘lap</title>
+  <title>Szavazás kezdőlap</title>
   <style>
     .notice {
       font-size: 1.2em;
@@ -32,28 +33,28 @@ if ($latest && $latest->num_rows > 0) {
 <body>
   <div id="userbox">
     <?php if (!isset($_SESSION['uid'])): ?>
-      <!-- VendĂ©g felhasznĂˇlĂł -->
-      <a href="login.html">BejelentkezĂ©s</a>
+      <!-- Vendég felhasználó -->
+      <a href="login.html">Bejelentkezés</a>
     <?php else: ?>
-      <!-- Bejelentkezett felhasznĂˇlĂł -->
+      <!-- Bejelentkezett felhasználó -->
       Bejelentkezve: <strong><?= htmlspecialchars($_SESSION['name']) ?></strong>
       <form action="api/logout.php" method="post" style="display:inline;">
-        <button type="submit">KijelentkezĂ©s</button>
+        <button type="submit">Kijelentkezés</button>
       </form>
     <?php endif; ?>
   </div>
 
   <nav>
-    <a href="index.php">KezdĹ‘lap</a>
+    <a href="index.php">Kezdőlap</a>
     <?php if (isset($_SESSION['uid'])): ?>
-      | <a href="poll.html?qid=<?= $qid ?>">SzavazĂˇs</a>
-      | <a href="result.html?qid=<?= $qid ?>">EredmĂ©nyek</a>
-      | <a href="admin.html">Ăšj kĂ©rdĂ©s</a>
-      | <a href="dashboard.html">KĂ©rdĂ©skezelĂ©s</a>
+      | <a href="poll.html?qid=<?= $qid ?>">Szavazás</a>
+      | <a href="result.html?qid=<?= $qid ?>">Eredmények</a>
+      | <a href="admin.html">Új kérdés</a>
+      | <a href="dashboard.html">Kérdéskezelés</a>
     <?php endif; ?>
   </nav>
 
-  <h1>ElĂ©rhetĹ‘ kĂ©rdĂ©sek</h1>
+  <h1>Elérhető kérdések</h1>
   <ul>
     <?php
     $res = $conn->query("SELECT qid, qtext FROM question ORDER BY qid ASC");
@@ -62,15 +63,15 @@ if ($latest && $latest->num_rows > 0) {
         echo "<li>";
         echo htmlspecialchars($row['qtext']);
         if (isset($_SESSION['uid'])) {
-          echo " <a href=\"poll.html?qid={$row['qid']}\">[SzavazĂˇs]</a>";
-          echo " <a href=\"result.html?qid={$row['qid']}\">[EredmĂ©nyek]</a>";
+          echo " <a href=\"poll.html?qid={$row['qid']}\">[Szavazás]</a>";
+          echo " <a href=\"result.html?qid={$row['qid']}\">[Eredmények]</a>";
         } else {
-          echo " <span class=\"notice\">(BejelentkezĂ©s szĂĽksĂ©ges)</span>";
+          echo " <span class=\"notice\">(Bejelentkezés szükséges)</span>";
         }
         echo "</li>";
       }
     } else {
-      echo "<li>Nincs elĂ©rhetĹ‘ kĂ©rdĂ©s</li>";
+      echo "<li>Nincs elérhető kérdés</li>";
     }
     $conn->close();
     ?>
