@@ -1,7 +1,9 @@
 <?php
 session_start();
-require __DIR__ . '/db.php'; 
-$qid = 1; 
+require __DIR__ . '/db.php'; // gyökérben lévő db.php
+
+// Lekérjük a legutolsó kérdés qid-jét a navigációs sávhoz
+$qid = 1; // alapértelmezett
 $latest = $conn->query("SELECT qid FROM question ORDER BY qid DESC LIMIT 1");
 if ($latest && $latest->num_rows > 0) {
   $qid = $latest->fetch_assoc()['qid'];
@@ -10,13 +12,31 @@ if ($latest && $latest->num_rows > 0) {
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">  
+  <meta charset="UTF-8">
+  <title>Szavazás kezdőlap</title>
+  <style>
+    .notice {
+      font-size: 1.2em;
+      color: #b00;
+      margin-left: 10px;
+    }
+    nav {
+      background:#eee;
+      padding:10px;
+      margin-bottom:20px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
 <body>
   <div id="userbox">
     <?php if (!isset($_SESSION['uid'])): ?>
+      <!-- Vendég felhasználó -->
       <a href="login.html">Bejelentkezés</a>
-    <?php else: ?>>
+    <?php else: ?>
+      <!-- Bejelentkezett felhasználó -->
       Bejelentkezve: <strong><?= htmlspecialchars($_SESSION['name']) ?></strong>
       <form action="api/logout.php" method="post" style="display:inline;">
         <button type="submit">Kijelentkezés</button>
