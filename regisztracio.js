@@ -6,6 +6,8 @@ document.getElementById('regForm').addEventListener('submit', function (e) {
       password: document.getElementById('password').value
   };
 
+  console.log(adat.username, adat.password);
+
   fetch('regisztracio.php', {
       method: 'POST',
       headers: {
