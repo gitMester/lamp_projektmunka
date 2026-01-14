@@ -1,70 +1,64 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require __DIR__ . '/db.php';
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
-require 'db.php';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["error" => "Nem támogatott metódus"]);
+    exit;
+}
 
-/*
- * JSON body beolvasása
- * (ugyanaz, mint Express-ben: req.body)
- */
+// Bemenet beolvasása
 $data = json_decode(file_get_contents('php://input'), true);
+$name = trim($data['name'] ?? '');
+$pass = trim($data['pass'] ?? '');
 
-
-if (!$data) {
+if ($name === '' || $pass === '') {
     http_response_code(400);
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Hibás JSON vagy nincs adat'
-    ]);
+    echo json_encode(["error" => "Név és jelszó megadása kötelező"]);
     exit;
 }
 
-// 6️⃣ Alap validáció
-if (!isset($data['username'], $data['email'], $data['password'])) {
-    http_response_code(400);
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Hiányzó adatok'
-    ]);
+// Ellenőrzés: név már létezik-e
+$stmt = $conn->prepare("SELECT COUNT(*) FROM user WHERE name = ?");
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(["error" => "Lekérdezési hiba: " . $conn->error]);
+    exit;
+}
+$stmt->bind_param("s", $name);
+$stmt->execute();
+$stmt->bind_result($count);
+$stmt->fetch();
+$stmt->close();
+
+if ($count > 0) {
+    http_response_code(409);
+    echo json_encode(["error" => "Ez a felhasználónév már foglalt"]);
     exit;
 }
 
+// Jelszó hash-elése
+$hashed = password_hash($pass, PASSWORD_DEFAULT);
+$ip = $_SERVER['REMOTE_ADDR'] ?? '';
 
-/* Adatok kimentése */
-$username = trim($data['username']);
-$email    = trim($data['email']);
-$password = $data['password'];
-
-if ($username === '' || $email === '' || $password === '') {
-    http_response_code(400);
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Üres mező nem megengedett'
-    ]);
+// Felhasználó mentése
+$stmt = $conn->prepare("INSERT INTO user (name, pass, ip) VALUES (?, ?, ?)");
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(["error" => "Mentési hiba: " . $conn->error]);
     exit;
 }
+$stmt->bind_param("sss", $name, $hashed, $ip);
+$stmt->execute();
+$uid = $stmt->insert_id;
+$stmt->close();
 
-/* Jelszó hash */
-$hash = password_hash($password, PASSWORD_DEFAULT);
-
-/* SQL beszúrás */
-$stmt = $pdo->prepare(
-    'INSERT INTO users (username, email, password)
-     VALUES (:username, :email, :password)'
-);
-
-$stmt->execute([
-    'username' => $username,
-    'email'    => $email,
-    'password' => $hash
-]);
-
-/* Válasz */
+http_response_code(201);
 echo json_encode([
-    'status' => 'success',
-    'message' => 'Sikeres regisztráció'
+    "message" => "Felhasználó létrehozva",
+    "id" => $uid,
+    "name" => $name,
+    "ip" => $ip
 ]);
