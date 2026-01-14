@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Content-Type: application/json');
 
 require 'db.php';
@@ -9,12 +13,18 @@ require 'db.php';
  */
 $data = json_decode(file_get_contents('php://input'), true);
 
-/* Alap validáció */
-if (
-    !isset($data['username']) ||
-    !isset($data['email']) ||
-    !isset($data['password'])
-) {
+
+if (!$data) {
+    http_response_code(400);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Hibás JSON vagy nincs adat'
+    ]);
+    exit;
+}
+
+// 6️⃣ Alap validáció
+if (!isset($data['username'], $data['email'], $data['password'])) {
     http_response_code(400);
     echo json_encode([
         'status' => 'error',
@@ -22,6 +32,7 @@ if (
     ]);
     exit;
 }
+
 
 /* Adatok kimentése */
 $username = trim($data['username']);
