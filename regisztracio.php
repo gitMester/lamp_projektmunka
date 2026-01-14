@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Bemenet beolvasása
 $data = json_decode(file_get_contents('php://input'), true);
-$name = trim($data['name'] ?? '');
-$pass = trim($data['pass'] ?? '');
+$name = trim($data['username'] ?? '');
+$pass = trim($data['password'] ?? '');
 
 if ($name === '' || $pass === '') {
     http_response_code(400);
