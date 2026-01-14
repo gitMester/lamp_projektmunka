@@ -1,3 +1,7 @@
+body {
+    place-items: center;
+}
+
 h1 {
     font-family: monospace;
     color: cadetblue;
@@ -5,4 +9,7 @@ h1 {
 
 #kezdooldal {
     background-color: burlywood;
+    border-radius: 30px;
+    
 }
+
