@@ -20,6 +20,6 @@ document.getElementById('regForm').addEventListener('submit', function (e) {
   })
   .catch(error => {
       document.getElementById('uzenet').innerText = 'Hiba történt';
-      console.error(error);
+      console.log(error);
   });
 });
