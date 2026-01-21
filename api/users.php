@@ -1,12 +1,22 @@
 <?php
-require 'db.php';
+session_start();
 header('Content-Type: application/json; charset=utf-8');
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $stmt = $pdo->query("SELECT id, name FROM user ORDER BY name ASC");
-    echo json_encode($stmt->fetchAll());
+if (!isset($_SESSION['uid'])) {
+    echo json_encode(["loggedIn" => false]);
     exit;
 }
 
-http_response_code(405);
-echo json_encode(["error" => "Nem támogatott metódus"]);
+require __DIR__ . '/db.php';
+
+$stmt = $conn->prepare("SELECT name FROM user WHERE uid = ?");
+$stmt->bind_param("i", $_SESSION['uid']);
+$stmt->execute();
+$stmt->bind_result($name);
+$stmt->fetch();
+$stmt->close();
+
+echo json_encode([
+    "loggedIn" => true,
+    "name" => $name
+]);
