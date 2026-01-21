@@ -27,11 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Átirányítás a főoldalra vagy dashboard-ra
                 setTimeout(() => {
-                    if (valasz.role === 'admin') {
-                        window.location.href = 'admin.html'; // Admin felület
-                    } else {
-                        window.location.href = 'index.html'; // Normál felhasználói felület
-                    }
+                    window.location.href = 'fooldal.html';
                 }, 1000);
                 
             } else {
