@@ -42,7 +42,7 @@ $stmt->store_result();
 $stmt->bind_result($uid, $role, $hashedPass);
 
 if ($stmt->num_rows > 0 && $stmt->fetch()) {
-    // Felhasználó létezik, jelszó ellenőrzése
+    // Felhasználó létezik, ellenőrizzük a jelszót
     if (!password_verify($pass, $hashedPass)) {
         http_response_code(401);
         echo json_encode(["error" => "Hibás jelszó."]);
@@ -60,8 +60,8 @@ if ($stmt->num_rows > 0 && $stmt->fetch()) {
     echo json_encode(["message" => "Sikeres bejelentkezés.", "role" => $role]);
 } else {
     $stmt->close();
-
-    // Ha a felhasználó nem létezik → ne vegye fel az adatbázisba, csak hibaüzenet
+    
+    // Felhasználó nem létezik → hibajelzés
     http_response_code(404);
     echo json_encode(["error" => "A felhasználó nem létezik."]);
 }

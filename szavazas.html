@@ -62,6 +62,10 @@
     button:hover {
       background-color: #0052a3;
     }
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
     #uzenet {
       margin-top: 15px;
       padding: 10px;
@@ -78,6 +82,11 @@
       color: #721c24;
       display: block;
     }
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -92,29 +101,89 @@
   </nav>
 
   <div class="szavazas-container">
-    <div class="kerdes">Működik a módosítás tárolt eljárással és triggerrel?</div>
+    <div class="loading">Kérdés betöltése...</div>
     
-    <form id="szavazasForm">
-      <div class="valaszok">
-        <label class="valasz-option">
-          <input type="checkbox" name="valasz" value="talán">
-          Talán
-        </label>
-        
-        <label class="valasz-option">
-          <input type="checkbox" name="valasz" value="persze">
-          Persze
-        </label>
-      </div>
+    <div id="kerdesContainer" style="display: none;">
+      <div class="kerdes" id="kerdesText"></div>
       
-      <button type="submit">Szavazok</button>
-    </form>
-    
-    <div id="uzenet"></div>
+      <form id="szavazasForm">
+        <div class="valaszok" id="valaszokContainer"></div>
+        
+        <button type="submit">Szavazok</button>
+      </form>
+      
+      <div id="uzenet"></div>
+    </div>
   </div>
 
   <script>
-    document.getElementById('szavazasForm').addEventListener('submit', function(e) {
+    let aktualisKerdes = null;
+
+    // Kérdés betöltése az oldalon
+    async function kerdesBetoltes() {
+      try {
+        const response = await fetch('./api/questions.php');
+        
+        if (!response.ok) {
+          throw new Error('Hiba a kérdés betöltésekor');
+        }
+        
+        const data = await response.json();
+        
+        if (data.error) {
+          document.querySelector('.loading').textContent = data.error;
+          return;
+        }
+        
+        aktualisKerdes = data;
+        
+        // Kérdés megjelenítése
+        document.getElementById('kerdesText').textContent = data.question;
+        
+        // Válaszok megjelenítése
+        const valaszokContainer = document.getElementById('valaszokContainer');
+        valaszokContainer.innerHTML = '';
+        
+        data.answers.forEach((valasz, index) => {
+          const label = document.createElement('label');
+          label.className = 'valasz-option';
+          label.innerHTML = `
+            <input type="checkbox" name="valasz" value="${index}">
+            ${valasz}
+          `;
+          valaszokContainer.appendChild(label);
+        });
+        
+        // Elrejtjük a loading üzenetet és megjelenítjük a kérdést
+        document.querySelector('.loading').style.display = 'none';
+        document.getElementById('kerdesContainer').style.display = 'block';
+        
+        // Checkbox-ok kezelése
+        initCheckboxok();
+        
+      } catch (error) {
+        console.error('Fetch hiba:', error);
+        document.querySelector('.loading').textContent = 'Hiba történt a kérdés betöltésekor';
+      }
+    }
+
+    // Checkbox-ok kezelése: csak egy legyen kiválasztható
+    function initCheckboxok() {
+      document.querySelectorAll('input[name="valasz"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          if (this.checked) {
+            document.querySelectorAll('input[name="valasz"]').forEach(other => {
+              if (other !== this) {
+                other.checked = false;
+              }
+            });
+          }
+        });
+      });
+    }
+
+    // Form submit kezelése
+    document.getElementById('szavazasForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const checkboxok = document.querySelectorAll('input[name="valasz"]:checked');
@@ -133,32 +202,48 @@
         return;
       }
       
-      const valasztottValasz = checkboxok[0].value;
+      const valasztottIndex = parseInt(checkboxok[0].value);
+      const valasztottValasz = aktualisKerdes.answers[valasztottIndex];
       
-      // Itt küldheted el a szavazatot a szervernek
-      console.log('Választott válasz:', valasztottValasz);
-      
-      const uzenet = document.getElementById('uzenet');
-      uzenet.textContent = 'Szavazatod rögzítve: ' + valasztottValasz;
-      uzenet.className = 'success';
-      
-      // Form letiltása szavazás után
-      this.querySelectorAll('input').forEach(input => input.disabled = true);
-      this.querySelector('button').disabled = true;
-    });
-    
-    // Checkbox-ok kezelése: csak egy legyen kiválasztható egyszerre
-    document.querySelectorAll('input[name="valasz"]').forEach(checkbox => {
-      checkbox.addEventListener('change', function() {
-        if (this.checked) {
-          document.querySelectorAll('input[name="valasz"]').forEach(other => {
-            if (other !== this) {
-              other.checked = false;
-            }
-          });
+      // Szavazat elküldése a szervernek
+      try {
+        const response = await fetch('szavazas.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            question_id: aktualisKerdes.id,
+            answer_index: valasztottIndex,
+            answer_text: valasztottValasz
+          })
+        });
+        
+        const eredmeny = await response.json();
+        
+        const uzenet = document.getElementById('uzenet');
+        if (response.ok) {
+          uzenet.textContent = eredmeny.message || 'Szavazatod rögzítve: ' + valasztottValasz;
+          uzenet.className = 'success';
+          
+          // Form letiltása szavazás után
+          this.querySelectorAll('input').forEach(input => input.disabled = true);
+          this.querySelector('button').disabled = true;
+        } else {
+          uzenet.textContent = eredmeny.error || 'Hiba történt a szavazás során';
+          uzenet.className = 'error';
         }
-      });
+        
+      } catch (error) {
+        console.error('Szavazás hiba:', error);
+        const uzenet = document.getElementById('uzenet');
+        uzenet.textContent = 'Hiba történt a szavazás során';
+        uzenet.className = 'error';
+      }
     });
+
+    // Oldal betöltésekor kérdés lekérése
+    document.addEventListener('DOMContentLoaded', kerdesBetoltes);
   </script>
 </body>
 </html>
