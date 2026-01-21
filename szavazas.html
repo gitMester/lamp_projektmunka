@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elérhető kérdések</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    nav {
+      margin: 20px 0;
+      padding: 10px 0;
+      border-bottom: 2px solid #333;
+    }
+    nav a {
+      text-decoration: none;
+      color: #0066cc;
+      margin: 0 10px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .szavazas-container {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .kerdes {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .valaszok {
+      margin: 15px 0;
+    }
+    .valasz-option {
+      display: block;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    .valasz-option input {
+      margin-right: 8px;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      padding: 10px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: #0052a3;
+    }
+    #uzenet {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+    #uzenet.success {
+      background-color: #d4edda;
+      color: #155724;
+      display: block;
+    }
+    #uzenet.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <p>Bejelentkezve: admin <a href="#">Kijelentkezés</a></p>
+
+  <nav>
+    <a href="fooldal.html">Főoldal</a>
+    <a href="szavazas.html">Szavazás</a> |
+    <a href="#">Eredmények</a> |
+    <a href="#">Új kérdés</a> |
+    <a href="#">Kérdéskezelés</a>
+  </nav>
+
+  <div class="szavazas-container">
+    <div class="kerdes">Működik a módosítás tárolt eljárással és triggerrel?</div>
+    
+    <form id="szavazasForm">
+      <div class="valaszok">
+        <label class="valasz-option">
+          <input type="checkbox" name="valasz" value="talán">
+          Talán
+        </label>
+        
+        <label class="valasz-option">
+          <input type="checkbox" name="valasz" value="persze">
+          Persze
+        </label>
+      </div>
+      
+      <button type="submit">Szavazok</button>
+    </form>
+    
+    <div id="uzenet"></div>
+  </div>
+
+  <script>
+    document.getElementById('szavazasForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const checkboxok = document.querySelectorAll('input[name="valasz"]:checked');
+      
+      if (checkboxok.length === 0) {
+        const uzenet = document.getElementById('uzenet');
+        uzenet.textContent = 'Kérlek válassz legalább egy lehetőséget!';
+        uzenet.className = 'error';
+        return;
+      }
+      
+      if (checkboxok.length > 1) {
+        const uzenet = document.getElementById('uzenet');
+        uzenet.textContent = 'Csak egy választ jelölhetsz be!';
+        uzenet.className = 'error';
+        return;
+      }
+      
+      const valasztottValasz = checkboxok[0].value;
+      
+      // Itt küldheted el a szavazatot a szervernek
+      console.log('Választott válasz:', valasztottValasz);
+      
+      const uzenet = document.getElementById('uzenet');
+      uzenet.textContent = 'Szavazatod rögzítve: ' + valasztottValasz;
+      uzenet.className = 'success';
+      
+      // Form letiltása szavazás után
+      this.querySelectorAll('input').forEach(input => input.disabled = true);
+      this.querySelector('button').disabled = true;
+    });
+    
+    // Checkbox-ok kezelése: csak egy legyen kiválasztható egyszerre
+    document.querySelectorAll('input[name="valasz"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          document.querySelectorAll('input[name="valasz"]').forEach(other => {
+            if (other !== this) {
+              other.checked = false;
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

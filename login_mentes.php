@@ -42,28 +42,36 @@ $stmt->store_result();
 $stmt->bind_result($uid, $role, $hashedPass);
 
 if ($stmt->num_rows > 0 && $stmt->fetch()) {
-    // Felhasználó létezik, jelszó ellenőrzése
     if (!password_verify($pass, $hashedPass)) {
         http_response_code(401);
         echo json_encode(["error" => "Hibás jelszó."]);
         exit;
     }
-
     $stmt->close();
-
-    // Session beállítása
-    $_SESSION['uid'] = $uid;
-    $_SESSION['name'] = $name;
-    $_SESSION['role'] = $role;
-    $_SESSION['user'] = ['uid' => $uid, 'name' => $name, 'role' => $role];
-
-    echo json_encode(["message" => "Sikeres bejelentkezés.", "role" => $role]);
 } else {
     $stmt->close();
 
-    // Ha a felhasználó nem létezik → ne vegye fel az adatbázisba, csak hibaüzenet
-    http_response_code(404);
-    echo json_encode(["error" => "A felhasználó nem létezik."]);
+    $role = ($name === 'admin') ? 'admin' : 'user';
+    $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("INSERT INTO user (name, role, pass) VALUES (?, ?, ?)");
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(["error" => "INSERT hiba: " . $conn->error]);
+        exit;
+    }
+    $stmt->bind_param("sss", $name, $role, $hashedPass);
+    $stmt->execute();
+    $uid = $stmt->insert_id;
+    $stmt->close();
 }
+
+// Session beállítása
+$_SESSION['uid'] = $uid;
+$_SESSION['name'] = $name;
+$_SESSION['role'] = $role;
+$_SESSION['user'] = ['uid' => $uid, 'name' => $name, 'role' => $role];
+
+echo json_encode(["message" => "Sikeres bejelentkezés.", "role" => $role]);
 
 $conn->close();
