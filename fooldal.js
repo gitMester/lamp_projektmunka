@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const spanFelhasznalo = document.getElementById('felhasznalonevMegjelenites');
 
-    fetch('./api/fooldal_user.php')
+    fetch('fooldal.php')
         .then(res => res.json())
         .then(data => {
             if (data.loggedIn) {
