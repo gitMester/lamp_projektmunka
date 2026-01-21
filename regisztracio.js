@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
           console.log(adat.username, adat.password);
 
-        fetch('./api/regisztracio.php', {
+        fetch('/lamp_projektmunka/api/regisztracio.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
