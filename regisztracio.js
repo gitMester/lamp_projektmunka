@@ -15,9 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(adat)
         })
-        .then(response => response.json())
-        .then(valasz => {
-            document.getElementById('uzenet').innerText = valasz.message;
+        .then(response => response.text())
+        .then(text => {
+            console.log("RAW PHP válasz:", text);
+            document.getElementById('uzenet').innerText = text;
         })
         .catch(error => {
             document.getElementById('uzenet').innerText = 'Hiba történt';
