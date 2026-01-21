@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bejelentkezés</title>
+  <link rel="stylesheet" href="bejelentkezes.css">
+</head>
+
+<body>
+  <div class="GIGADIV">
+    <h1>Bejelentkezés</h1>
+    <form id="loginForm">
+      <label>
+        Felhasználónév:
+        <br/>
+        <input type="text" id="username" placeholder="Felhasználónév" required>
+      </label><br><br>
+
+      <label>
+        Jelszó:
+        <br/>
+        <input type="password" id="password" placeholder="Jelszó" required>
+      </label><br><br>
+
+      <button type="submit">Bejelentkezés</button>
+    </form>
+
+    <p id="uzenet"></p>
+    <p>Még nincs fiókod? <a href="regisztracio.html">Regisztráció</a></p>
+  </div>
+  <script src="bejelentkezes.js"></script>
+</body>
+
+</html>
