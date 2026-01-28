@@ -7,49 +7,47 @@
   <link rel="stylesheet" href="./ujkerdes.css">
 </head>
 <body>
+  <p>Bejelentkezve: <span id="felhasznalonevMegjelenites"></span> <a href="./index.html">Kijelentkezés</a></p>
+  <nav>
+    <a href="fooldal.html">Főoldal</a> |
+    <a href="szavazas.html">Szavazás</a>
+  </nav>
 
-<p>Bejelentkezve: <span id="felhasznalonevMegjelenites"></span> <a href="./index.html">Kijelentkezés</a></p>
-
-<nav>
-  <a href="fooldal.html">Főoldal</a> |
-  <a href="szavazas.html">Szavazás</a>
-</nav>
-
-<div class="container">
-  <h1>Új kérdés hozzáadása</h1>
-  
-  <form id="ujKerdesForm">
-    <div class="form-group">
-      <label for="kerdesText">Kérdés szövege:</label>
-      <textarea id="kerdesText" name="kerdesText" required placeholder="Írd be a kérdést..."></textarea>
-      <div class="hiba" id="kerdesHiba"></div>
-    </div>
-
-    <div class="valaszok-container">
-      <label>Válaszlehetőségek (minimum 2):</label>
-      <div id="valaszokLista">
-        <div class="valasz-item">
-          <input type="text" placeholder="1. válasz" data-valasz="0" required>
-          <button type="button" onclick="torolValasz(this)" style="visibility: hidden;">Törlés</button>
-        </div>
-        <div class="valasz-item">
-          <input type="text" placeholder="2. válasz" data-valasz="1" required>
-          <button type="button" onclick="torolValasz(this)" style="visibility: hidden;">Törlés</button>
-        </div>
+  <div class="container">
+    <h1>Új kérdés hozzáadása</h1>
+    
+    <form id="ujKerdesForm">
+      <div class="form-group">
+        <label for="kerdesText">Kérdés szövege:</label>
+        <textarea id="kerdesText" name="kerdesText" required placeholder="Írd be a kérdést..."></textarea>
+        <div class="hiba" id="kerdesHiba"></div>
       </div>
-      <button type="button" class="btn-secondary" onclick="ujValasz()">+ Újabb válasz</button>
-      <div class="hiba" id="valaszokHiba"></div>
-    </div>
 
-    <div class="form-group">
-      <button type="submit">Kérdés mentése</button>
-      <button type="button" class="btn-secondary" onclick="location.href='fooldal.html'">Mégse</button>
-    </div>
-  </form>
+      <div class="valaszok-container">
+        <label>Válaszlehetőségek (minimum 2):</label>
+        <div id="valaszokLista">
+          <div class="valasz-item">
+            <input type="text" placeholder="1. válasz" data-valasz="0" required>
+            <button type="button" onclick="torolValasz(this)" style="visibility: hidden;">Törlés</button>
+          </div>
+          <div class="valasz-item">
+            <input type="text" placeholder="2. válasz" data-valasz="1" required>
+            <button type="button" onclick="torolValasz(this)" style="visibility: hidden;">Törlés</button>
+          </div>
+        </div>
+        <button type="button" class="btn-secondary" onclick="ujValasz()">+ Újabb válasz</button>
+        <div class="hiba" id="valaszokHiba"></div>
+      </div>
 
-  <div id="uzenet"></div>
-</div>
+      <div class="form-group">
+        <button type="submit">Kérdés mentése</button>
+        <button type="button" class="btn-secondary" onclick="location.href='fooldal.html'">Mégse</button>
+      </div>
+    </form>
 
-<script src="ujkerdes.js"></script>
+    <div id="uzenet"></div>
+  </div>
+
+  <script src="ujkerdes.js"></script>
 </body>
 </html>
