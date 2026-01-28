@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let aktualisKerdes = null;
 
+  // URL paraméter olvasása
+  const urlParams = new URLSearchParams(window.location.search);
+  const qidParam = urlParams.get('qid');
+
   /* Felhasználó */
   fetch('./api/users.php')
     .then(r => r.json())
@@ -19,7 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   /* Kérdés betöltése – API mappából */
-  fetch('./api/question.php')
+  const questionUrl = qidParam ? `./api/question.php?qid=${qidParam}` : './api/question.php';
+  
+  fetch(questionUrl)
     .then(r => r.json())
     .then(data => {
       if (data.error) throw new Error(data.error);  

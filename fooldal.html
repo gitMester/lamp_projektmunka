@@ -5,6 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elérhető kérdések</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .kerdes-item {
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .kerdes-szoveg {
+      flex: 1;
+      font-size: 16px;
+    }
+    
+    .szavazas-gomb {
+      padding: 8px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    
+    .szavazas-gomb:hover {
+      background-color: #0056b3;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+    
+    .error {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <p>Bejelentkezve: <span id="felhasznalonevMegjelenites"></span> <a href="./index.html">Kijelentkezés</a></p>
@@ -20,7 +61,7 @@
 
   <div class="loading">Kérdések betöltése...</div>
 
-  <ul id="kerdesekLista">
+  <ul id="kerdesekLista" style="list-style: none; padding: 0;">
     <!-- A kérdések ide kerülnek dinamikusan -->
   </ul>
   

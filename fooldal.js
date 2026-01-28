@@ -33,12 +33,21 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 data.forEach(kerdes => {
                     const li = document.createElement('li');
+                    li.className = 'kerdes-item';
                     li.innerHTML = `
-                        ${kerdes.qtext}
-                        <a href="szavazas.html?qid=${kerdes.qid}">[Szavazás]</a>
+                        <span class="kerdes-szoveg">${kerdes.qtext}</span>
+                        <button class="szavazas-gomb" data-qid="${kerdes.qid}">Szavazás</button>
                         <a href="eredmenyek.html?qid=${kerdes.qid}">[Eredmények]</a>
                     `;
                     kerdesekLista.appendChild(li);
+                });
+
+                // Szavazás gombok eseménykezelői
+                document.querySelectorAll('.szavazas-gomb').forEach(gomb => {
+                    gomb.addEventListener('click', function() {
+                        const qid = this.getAttribute('data-qid');
+                        window.location.href = `szavazas.html?qid=${qid}`;
+                    });
                 });
             }
             
