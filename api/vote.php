@@ -1,6 +1,7 @@
 <?php
 session_start();
 require __DIR__ . '/db.php';
+
 header('Content-Type: application/json; charset=utf-8');
 
 if (!isset($_SESSION['uid'])) {
@@ -19,7 +20,7 @@ $qid = (int)$data['qid'];
 $aid = (int)$data['aid'];
 $uid = (int)$_SESSION['uid'];
 
-/* Ellenőrzés: létezik-e a válasz ehhez a kérdéshez */
+/* Ellenőrzés: válasz a kérdéshez tartozik-e */
 $stmt = $conn->prepare("
     SELECT COUNT(*) 
     FROM answer 
@@ -27,11 +28,11 @@ $stmt = $conn->prepare("
 ");
 $stmt->bind_param("ii", $aid, $qid);
 $stmt->execute();
-$stmt->bind_result($exists);
+$stmt->bind_result($ok);
 $stmt->fetch();
 $stmt->close();
 
-if ($exists === 0) {
+if ($ok === 0) {
     echo json_encode(["error" => "Érvénytelen válasz."]);
     exit;
 }
@@ -53,17 +54,19 @@ if ($voted > 0) {
     exit;
 }
 
-/* Szavazat rögzítése */
+/* Szavazat mentése */
 $stmt = $conn->prepare("
-    INSERT INTO vote (uid, qid, aid)
-    VALUES (?, ?, ?)
+    INSERT INTO vote (uid, qid, aid, ip)
+    VALUES (?, ?, ?, ?)
 ");
-$stmt->bind_param("iii", $uid, $qid, $aid);
+
+$ip = $_SERVER['REMOTE_ADDR'];
+$stmt->bind_param("iiis", $uid, $qid, $aid, $ip);
 
 if ($stmt->execute()) {
     echo json_encode(["message" => "Szavazat sikeresen rögzítve."]);
 } else {
-    echo json_encode(["error" => "Adatbázis hiba történt."]);
+    echo json_encode(["error" => "Adatbázis hiba."]);
 }
 
 $stmt->close();

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let aktualisKerdes = null;
 
-  /* Bejelentkezett felhasználó */
+  /* Felhasználó */
   fetch('./api/users.php')
     .then(r => r.json())
     .then(d => {
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-  /* Kérdés betöltése */
+  /* Kérdés betöltése – API mappából */
   fetch('./api/question.php')
     .then(r => r.json())
     .then(data => {
