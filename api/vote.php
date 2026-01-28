@@ -2,72 +2,67 @@
 session_start();
 require __DIR__ . '/db.php';
 
+// mindig JSON
 header('Content-Type: application/json; charset=utf-8');
 
-if (!isset($_SESSION['uid'])) {
-    echo json_encode(["error" => "Nem vagy bejelentkezve."]);
-    exit;
-}
+try {
+    // Bejelentkezés ellenőrzés
+    if (!isset($_SESSION['uid'])) {
+        throw new Exception("Nem vagy bejelentkezve.");
+    }
 
-$data = json_decode(file_get_contents("php://input"), true);
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!isset($data['qid'], $data['aid'])) {
+        throw new Exception("Hiányzó adatok.");
+    }
 
-if (!isset($data['qid'], $data['aid'])) {
-    echo json_encode(["error" => "Hiányzó adatok."]);
-    exit;
-}
+    $qid = (int)$data['qid'];
+    $aid = (int)$data['aid'];
+    $uid = (int)$_SESSION['uid'];
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
 
-$qid = (int)$data['qid'];
-$aid = (int)$data['aid'];
-$uid = (int)$_SESSION['uid'];
+    // Ellenőrzés: válasz létezik-e a kérdéshez
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM answer WHERE aid=? AND qid=?");
+    if (!$stmt) throw new Exception("DB hiba (prepare answer): " . $conn->error);
+    $stmt->bind_param("ii", $aid, $qid);
+    $stmt->execute();
+    $stmt->bind_result($exists);
+    $stmt->fetch();
+    $stmt->close();
 
-/* Ellenőrzés: válasz a kérdéshez tartozik-e */
-$stmt = $conn->prepare("
-    SELECT COUNT(*) 
-    FROM answer 
-    WHERE aid = ? AND qid = ?
-");
-$stmt->bind_param("ii", $aid, $qid);
-$stmt->execute();
-$stmt->bind_result($ok);
-$stmt->fetch();
-$stmt->close();
+    if ($exists === 0) {
+        throw new Exception("Érvénytelen válasz.");
+    }
 
-if ($ok === 0) {
-    echo json_encode(["error" => "Érvénytelen válasz."]);
-    exit;
-}
+    // Ellenőrzés: már szavazott-e
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM vote WHERE uid=? AND qid=?");
+    if (!$stmt) throw new Exception("DB hiba (prepare vote check): " . $conn->error);
+    $stmt->bind_param("ii", $uid, $qid);
+    $stmt->execute();
+    $stmt->bind_result($voted);
+    $stmt->fetch();
+    $stmt->close();
 
-/* Ellenőrzés: már szavazott-e */
-$stmt = $conn->prepare("
-    SELECT COUNT(*) 
-    FROM vote 
-    WHERE uid = ? AND qid = ?
-");
-$stmt->bind_param("ii", $uid, $qid);
-$stmt->execute();
-$stmt->bind_result($voted);
-$stmt->fetch();
-$stmt->close();
+    if ($voted > 0) {
+        throw new Exception("Erre a kérdésre már szavaztál.");
+    }
 
-if ($voted > 0) {
-    echo json_encode(["error" => "Erre a kérdésre már szavaztál."]);
-    exit;
-}
+    // Szavazat mentése
+    $stmt = $conn->prepare("INSERT INTO vote (uid,qid,aid,ip) VALUES (?,?,?,?)");
+    if (!$stmt) throw new Exception("DB hiba (prepare insert): " . $conn->error);
+    $stmt->bind_param("iiis", $uid, $qid, $aid, $ip);
 
-/* Szavazat mentése */
-$stmt = $conn->prepare("
-    INSERT INTO vote (uid, qid, aid, ip)
-    VALUES (?, ?, ?, ?)
-");
+    if (!$stmt->execute()) {
+        throw new Exception("DB hiba (insert): " . $stmt->error);
+    }
 
-$ip = $_SERVER['REMOTE_ADDR'];
-$stmt->bind_param("iiis", $uid, $qid, $aid, $ip);
-
-if ($stmt->execute()) {
     echo json_encode(["message" => "Szavazat sikeresen rögzítve."]);
-} else {
-    echo json_encode(["error" => "Adatbázis hiba."]);
-}
 
-$stmt->close();
-$conn->close();
+    $stmt->close();
+    $conn->close();
+
+} catch(Exception $e) {
+    // Ha bármi hiba van, 500, de JSON
+    http_response_code(500);
+    echo json_encode(["error" => $e->getMessage()]);
+}

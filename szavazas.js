@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('./api/question.php')
     .then(r => r.json())
     .then(data => {
-      if (data.error) throw new Error(data.error);
+      if (data.error) throw new Error(data.error);  
 
       aktualisKerdes = data;
       kerdesText.textContent = data.qtext;
