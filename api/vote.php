@@ -1,7 +1,11 @@
 <?php
 session_start();
-require __DIR__ . '/db.php';
+require __DIR__ . '/../db.php';  // Javítva!
 header('Content-Type: application/json; charset=utf-8');
+
+// Hibakezelés
+ini_set('display_errors', 0);
+error_reporting(0);
 
 if (!isset($_SESSION['uid'])) {
     echo json_encode(["error" => "Nem vagy bejelentkezve."]);
@@ -15,6 +19,19 @@ $uid = $_SESSION['uid'];
 
 if ($qid === null || $aid === null) {
     echo json_encode(["error" => "Hiányzó kérdés vagy válasz."]);
+    exit;
+}
+
+// Ellenőrzés: már szavazott-e erre a kérdésre
+$stmt = $conn->prepare("SELECT COUNT(*) FROM vote WHERE uid = ? AND qid = ?");
+$stmt->bind_param("ii", $uid, $qid);
+$stmt->execute();
+$stmt->bind_result($voted);
+$stmt->fetch();
+$stmt->close();
+
+if ($voted > 0) {
+    echo json_encode(["error" => "Már szavaztál erre a kérdésre."]);
     exit;
 }
 
@@ -37,7 +54,7 @@ $stmt->bind_param("iii", $uid, $qid, $aid);
 if ($stmt->execute()) {
     echo json_encode(["message" => "Szavazat rögzítve."]);
 } else {
-    echo json_encode(["error" => "Hiba történt a rögzítés során."]);
+    echo json_encode(["error" => "Hiba történt a rögzítés során: " . $stmt->error]);
 }
 $stmt->close();
 $conn->close();

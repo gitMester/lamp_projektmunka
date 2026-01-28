@@ -24,28 +24,36 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Felhasználó lekérési hiba:', err);
     });
 
-  // Kérdés betöltése - question.php-t használjuk
+  // Kérdés betöltése
   fetch('./api/question.php')
     .then(res => {
-      if (!res.ok) throw new Error('Hálózati hiba');
-      return res.json();
+      console.log('Response status:', res.status);
+      return res.text(); // Átmenetileg text()-ként olvassuk
     })
-    .then(data => {
-      if (data.error) throw new Error(data.error);
-      
-      aktualisKerdes = data;
-      kerdesText.textContent = data.qtext;
-      valaszokContainer.innerHTML = '';
-      
-      data.answers.forEach(answer => {
-        const label = document.createElement('label');
-        label.className = 'valasz-option';
-        label.innerHTML = `<input type="radio" name="valasz" value="${answer.aid}"> ${answer.atext}`;
-        valaszokContainer.appendChild(label);
-      });
-      
-      loadingDiv.style.display = 'none';
-      kerdesContainer.style.display = 'block';
+    .then(text => {
+      console.log('Response text:', text); // Nézd meg mit ad vissza
+      try {
+        const data = JSON.parse(text);
+        if (data.error) throw new Error(data.error);
+        
+        aktualisKerdes = data;
+        kerdesText.textContent = data.qtext;
+        valaszokContainer.innerHTML = '';
+        
+        data.answers.forEach(answer => {
+          const label = document.createElement('label');
+          label.className = 'valasz-option';
+          label.innerHTML = `<input type="radio" name="valasz" value="${answer.aid}"> ${answer.atext}`;
+          valaszokContainer.appendChild(label);
+        });
+        
+        loadingDiv.style.display = 'none';
+        kerdesContainer.style.display = 'block';
+      } catch (e) {
+        console.error('JSON parse hiba:', e);
+        console.error('Kapott szöveg:', text);
+        throw new Error('Hibás válasz a szervertől');
+      }
     })
     .catch(err => {
       loadingDiv.textContent = err.message || 'Hiba a kérdés betöltésekor';
@@ -73,9 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       });
       
-      if (!response.ok) throw new Error('Hálózati hiba');
+      const text = await response.text();
+      console.log('Vote response:', text); // Debug
       
-      const result = await response.json();
+      const result = JSON.parse(text);
       
       if (result.error) {
         uzenet.textContent = result.error;
@@ -87,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.querySelector('button').disabled = true;
       }
     } catch (err) {
+      console.error('Szavazás hiba:', err);
       uzenet.textContent = 'Hiba a szavazat rögzítésekor: ' + err.message;
       uzenet.className = 'error';
     }
