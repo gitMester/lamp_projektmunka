@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elérhető kérdések</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <p>Bejelentkezve: <span id="felhasznalonevMegjelenites"></span> <a href="./index.html">Kijelentkezés</a></p>
@@ -17,28 +18,12 @@
 
   <h2>Elérhető kérdések</h2>
 
-  <ul>
-    <li>
-      Mire is jó a Frontend és a Backend szétválasztása?
-      <a href="#">[Szavazás]</a>
-      <a href="#">[Eredmények]</a>
-    </li>
-    <li>
-      Jó lesz ez backendnek FE oktatáshoz??
-      <a href="#">[Szavazás]</a>
-      <a href="#">[Eredmények]</a>
-    </li>
-    <li>
-      Mennyi?
-      <a href="#">[Szavazás]</a>
-      <a href="#">[Eredmények]</a>
-    </li>
-    <li>
-      Működik a módosítás tárolt eljárással és triggerrel?
-      <a href="#">[Szavazás]</a>
-      <a href="#">[Eredmények]</a>
-    </li>
+  <div class="loading">Kérdések betöltése...</div>
+
+  <ul id="kerdesekLista">
+    <!-- A kérdések ide kerülnek dinamikusan -->
   </ul>
+  
   <script src="fooldal.js"></script>
 </body>
 </html>

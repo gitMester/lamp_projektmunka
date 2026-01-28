@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . '/db.php';
+require __DIR__ . '/../db.php';
 
 // mindig JSON
 header('Content-Type: application/json; charset=utf-8');
