@@ -82,9 +82,11 @@ function betoltEredmenyek(qid) {
                             <span class="szavazat-info">${szavazatok} szavazat</span>
                         </div>
                         <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: ${szazalek}%">
-                                ${szazalek > 5 ? `<span class="progress-percent">${szazalek}%</span>` : ''}
-                            </div>
+                            ${szazalek > 0 ? `
+                                <div class="progress-bar" style="width: ${szazalek}%">
+                                    ${szazalek > 5 ? `<span class="progress-percent">${szazalek}%</span>` : ''}
+                                </div>
+                            ` : ''}
                         </div>
                         ${szazalek <= 5 && szazalek > 0 ? `<div style="text-align: right; margin-top: 5px; font-size: 12px; color: #888;">${szazalek}%</div>` : ''}
                     `;
