@@ -43,32 +43,21 @@ function betoltEredmenyek(qid) {
     const valaszokLista = document.getElementById('valaszokLista');
     const osszSzavazat = document.getElementById('osszSzavazat');
 
-    // Kérdés és válaszok lekérése
-    fetch(`./api/question.php?qid=${qid}`)
+    // Eredmények lekérése a meglévő result.php-ből
+    fetch(`./api/result.php?qid=${qid}`)
         .then(res => res.json())
-        .then(questionData => {
-            if (questionData.error) {
-                throw new Error(questionData.error);
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
             }
 
-            kerdesCim.textContent = questionData.qtext;
+            // Kérdés címének beállítása
+            kerdesCim.textContent = data.qtext;
 
-            // Szavazatok lekérése
-            return fetch(`./api/results.php?qid=${qid}`)
-                .then(res => res.json())
-                .then(votesData => {
-                    return { questionData, votesData };
-                });
-        })
-        .then(({ questionData, votesData }) => {
-            // Szavazatok összeszámolása válaszonként
-            const szavazatokSzama = {};
+            // Összes szavazat kiszámítása
             let osszSzavazatSzam = 0;
-
-            votesData.forEach(vote => {
-                const aid = vote.aid;
-                szavazatokSzama[aid] = (szavazatokSzama[aid] || 0) + 1;
-                osszSzavazatSzam++;
+            data.answers.forEach(answer => {
+                osszSzavazatSzam += answer.votes;
             });
 
             osszSzavazat.textContent = osszSzavazatSzam;
@@ -76,11 +65,11 @@ function betoltEredmenyek(qid) {
             // Válaszok megjelenítése progress bar-okkal
             valaszokLista.innerHTML = '';
 
-            if (questionData.answers.length === 0) {
+            if (data.answers.length === 0) {
                 valaszokLista.innerHTML = '<p style="text-align: center; color: #666;">Még nincsenek válaszlehetőségek ehhez a kérdéshez.</p>';
             } else {
-                questionData.answers.forEach(answer => {
-                    const szavazatok = szavazatokSzama[answer.aid] || 0;
+                data.answers.forEach(answer => {
+                    const szavazatok = answer.votes;
                     const szazalek = osszSzavazatSzam > 0 
                         ? Math.round((szavazatok / osszSzavazatSzam) * 100) 
                         : 0;

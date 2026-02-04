@@ -6,155 +6,224 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f5f1ed 0%, #e8dfd6 100%);
+  background: #e8dfd6;
   min-height: 100vh;
-  padding: 2rem;
-  color: #4a4a4a;
+  display: flex;
+  flex-direction: column;
+  color: #2d2d2d;
+}
+
+/* Header container */
+header {
+  background: #f5f1ed;
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d4c5b5;
+}
+
+/* Navigation wrapper */
+nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Main content wrapper */
+main {
+  flex: 1;
+  padding: 3rem;
 }
 
 /* Main heading */
 h1 {
-  text-align: center;
-  color: #8b6f47;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  text-shadow: 1px 1px 2px rgba(139, 111, 71, 0.1);
-  font-weight: 600;
+  font-size: 1.5rem;
+  color: #2d2d2d;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 /* Navigation links container */
 body > a {
   display: inline-block;
-  margin: 0 1rem 2rem 0;
   padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 111, 71, 0.2);
-  border-radius: 12px;
-  color: #8b6f47;
+  background: #c9a961;
+  border: none;
+  border-radius: 8px;
+  color: #2d2d2d;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+body > a:first-of-type {
+  background: transparent;
+  color: #2d2d2d;
+}
+
+body > a:first-of-type:hover {
+  background: rgba(201, 169, 97, 0.1);
 }
 
 body > a:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(139, 111, 71, 0.15);
-  border-color: rgba(139, 111, 71, 0.3);
+  background: #b89751;
+  transform: translateY(-1px);
 }
 
 /* Main content container */
 .kezdooldal {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(139, 111, 71, 0.15);
-  border-radius: 20px;
-  padding: 2.5rem;
-  margin: 2rem auto;
-  max-width: 900px;
-  box-shadow: 0 8px 32px rgba(139, 111, 71, 0.08);
+  background: #f5f1ed;
+  border-radius: 16px;
+  padding: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .kezdooldal h2 {
-  color: #8b6f47;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-weight: 600;
+  color: #2d2d2d;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  max-width: 600px;
 }
 
 /* Loading state */
 .loading {
-  text-align: center;
-  color: #8b6f47;
+  color: #5d5d5d;
   font-size: 1.1rem;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.7);
+  padding: 3rem;
+  background: white;
   border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 111, 71, 0.1);
+  margin-top: 2rem;
 }
 
 /* Questions preview container */
 #kerdesekPreview {
   display: grid;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 /* Individual question cards */
 #kerdesekPreview > div {
-  background: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(139, 111, 71, 0.15);
-  border-radius: 15px;
-  padding: 1.5rem;
+  background: white;
+  border: 1px solid #e0d5c7;
+  border-radius: 12px;
+  padding: 2rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(139, 111, 71, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 #kerdesekPreview > div:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(139, 111, 71, 0.12);
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(139, 111, 71, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #c9a961;
 }
 
 /* Footer */
 footer {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(139, 111, 71, 0.15);
-  border-radius: 20px;
-  padding: 2rem;
-  margin: 3rem auto 0;
-  max-width: 900px;
+  background: #2d2d2d;
+  padding: 2.5rem 3rem;
+  margin-top: auto;
   text-align: center;
-  box-shadow: 0 8px 32px rgba(139, 111, 71, 0.08);
 }
 
 footer h2 {
-  color: #8b6f47;
-  font-size: 1rem;
+  color: #e8dfd6;
+  font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
+  letter-spacing: 0.3px;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  body {
-    padding: 1rem;
+  header {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
   }
 
-  h1 {
-    font-size: 2rem;
+  nav {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
   }
 
-  .kezdooldal {
-    padding: 1.5rem;
-  }
-
-  .kezdooldal h2 {
-    font-size: 1.5rem;
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
   }
 
   body > a {
-    display: block;
-    margin: 0 0 1rem 0;
+    width: 100%;
     text-align: center;
   }
-}
 
-/* Additional glassmorphism effects */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 111, 71, 0.15);
-  border-radius: 15px;
+  main {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .kezdooldal {
+    padding: 2rem;
+  }
+
+  .kezdooldal h2 {
+    font-size: 2rem;
+  }
+
+  #kerdesekPreview {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    padding: 2rem 1.5rem;
+  }
 }
 
 /* Smooth animations */
 * {
   transition: background-color 0.3s ease;
+}
+
+/* CTA Button styling */
+.cta-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: #c9a961;
+  border: none;
+  border-radius: 8px;
+  color: #2d2d2d;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background: #b89751;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
 }
