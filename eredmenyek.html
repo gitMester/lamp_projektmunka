@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Szavazási eredmények</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     .eredmeny-container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 20px auto;
       padding: 20px;
       background-color: #f9f9f9;
@@ -21,6 +22,15 @@
       margin-bottom: 30px;
       color: #333;
       text-align: center;
+    }
+    
+    .diagram-container {
+      max-width: 500px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
     
     .valasz-item {
@@ -43,6 +53,16 @@
       font-weight: 500;
       color: #333;
       flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .szin-jelzo {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: inline-block;
     }
     
     .szavazat-info {
@@ -63,7 +83,6 @@
     
     .progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #4CAF50, #45a049);
       border-radius: 15px;
       transition: width 0.5s ease-in-out;
       display: flex;
@@ -124,6 +143,14 @@
       text-align: center;
       margin-bottom: 20px;
     }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 30px 0 20px;
+      color: #333;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -143,6 +170,12 @@
 
   <div id="eredmenyContainer" class="eredmeny-container" style="display: none;">
     <h2 class="kerdes-cim" id="kerdesCim"></h2>
+    
+    <div class="diagram-container">
+      <canvas id="pieChart"></canvas>
+    </div>
+    
+    <h3 class="section-title">Részletes eredmények</h3>
     
     <div id="valaszokLista">
       <!-- A válaszok eredményei ide kerülnek dinamikusan -->
