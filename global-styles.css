@@ -36,7 +36,11 @@ html {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background: linear-gradient(rgba(248, 249, 251, 0.95), rgba(248, 249, 251, 0.95)), url('bg-image.jpg') center/cover fixed no-repeat;
+  background: linear-gradient(rgba(248, 249, 251, 0.95), rgba(248, 249, 251, 0.95));
+  background-image: url("https://www.pexels.com/photo/slice-of-lemon-17284844/");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
