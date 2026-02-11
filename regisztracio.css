@@ -10,6 +10,7 @@
   padding: 2rem;
   position: relative;
   z-index: 1;
+  background: linear-gradient(rgba(248, 249, 251, 0.92), rgba(248, 249, 251, 0.92)), url('bg-image.jpg') center/cover fixed no-repeat;
 }
 
 .register-card {
