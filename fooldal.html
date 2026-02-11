@@ -4,65 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elérhető kérdések</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .kerdes-item {
-      margin: 15px 0;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .kerdes-szoveg {
-      flex: 1;
-      font-size: 16px;
-    }
-    
-    .szavazas-gomb {
-      padding: 8px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s;
-    }
-    
-    .szavazas-gomb:hover {
-      background-color: #0056b3;
-    }
-    
-    .loading {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-    }
-    
-    .error {
-      color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="global-styles.css">
+  <link rel="stylesheet" href="fooldal.css">
 </head>
 <body>
-  <p>Bejelentkezve: <span id="felhasznalonevMegjelenites"></span> <a href="./index.html">Kijelentkezés</a></p>
-  <nav>
-    <!-- <a href="szavazas.html">Szavazás</a> | -->
-    <a href="ujkerdes.html">Új kérdés</a> |
-    <a href="#">Kérdéskezelés</a>
-  </nav>
+  <header>
+    <div>
+      <h1>(Megették) A Termeszek</h1>
+      <nav>
+        <a href="ujkerdes.html" class="nav-link">Új kérdés</a>
+        <a href="#" class="nav-link">Kérdéskezelés</a>
+      </nav>
+    </div>
+  </header>
 
-  <h2>Elérhető kérdések</h2>
+  <main>
+    <div class="user-info">
+      <p>Bejelentkezve: <strong id="felhasznalonevMegjelenites"></strong> 
+        <a href="./index.html" class="logout-link">Kijelentkezés</a>
+      </p>
+    </div>
 
-  <div class="loading">Kérdések betöltése...</div>
+    <div class="page-header">
+      <h2>Elérhető kérdések</h2>
+      <p>Válassz egy kérdést szavazáshoz vagy eredmények megtekintéséhez</p>
+    </div>
 
-  <ul id="kerdesekLista" style="list-style: none; padding: 0;">
-    <!-- A kérdések ide kerülnek dinamikusan -->
-  </ul>
-  
+    <div class="loading">Kérdések betöltése...</div>
+
+    <div id="kerdesekContainer" class="questions-container">
+      <ul id="kerdesekLista" class="questions-list">
+        <!-- A kérdések ide kerülnek dinamikusan -->
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <h2>Készítette: Kányai Márk, Léber Bence Bendegúz, Sveiczer Dávid</h2>
+  </footer>
+
   <script src="fooldal.js"></script>
 </body>
 </html>
