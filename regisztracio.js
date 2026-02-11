@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.text())
         .then(text => {
-            console.log("RAW PHP válasz:", text);
-            document.getElementById('uzenet').innerText = text;
+            // console.log("RAW PHP válasz:", text);
+            // document.getElementById('uzenet').innerText = text;
         })
         .catch(error => {
             document.getElementById('uzenet').innerText = 'Hiba történt';
