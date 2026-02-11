@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="hu">
-
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bejelentkezés</title>
+  <link rel="stylesheet" href="global-styles.css">
   <link rel="stylesheet" href="bejelentkezes.css">
 </head>
-
 <body>
-  <div class="GIGADIV">
-    <h1>Bejelentkezés</h1>
-    <form id="loginForm">
-      <label>
-        Felhasználónév:
-        <br/>
-        <input type="text" id="username" placeholder="Felhasználónév" required>
-      </label><br><br>
+  <div class="login-wrapper">
+    <div class="glass-card login-card">
+      <div class="login-header">
+        <h1>Bejelentkezés</h1>
+        <p>Az alkalmazásba való belépéshez add meg az adataidat</p>
+      </div>
 
-      <label>
-        Jelszó:
-        <br/>
-        <input type="password" id="password" placeholder="Jelszó" required>
-      </label><br><br>
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="username">Felhasználónév</label>
+          <input 
+            type="text" 
+            id="username" 
+            placeholder="Add meg a felhasználónevedet"
+            required
+          >
+        </div>
 
-      <button type="submit">Bejelentkezés</button>
-    </form>
+        <div class="form-group">
+          <label for="password">Jelszó</label>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="Add meg a jelszavadat"
+            required
+          >
+        </div>
 
-    <p id="uzenet"></p>
-    <p>Még nincs fiókod? <a href="regisztracio.html">Regisztráció</a></p>
+        <button type="submit" class="btn-login">Bejelentkezés</button>
+      </form>
+
+      <div id="uzenet" class="message"></div>
+
+      <div class="login-footer">
+        <p>Még nincs fiókod? 
+          <a href="regisztracio.html">Regisztrálj most</a>
+        </p>
+      </div>
+    </div>
   </div>
+
   <script src="bejelentkezes.js"></script>
 </body>
-
 </html>

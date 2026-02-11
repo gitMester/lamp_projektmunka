@@ -5,9 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value
         };
-        
-          console.log(adat.username, adat.password);
-
         fetch('regisztracio.php', {
             method: 'POST',
             headers: {
@@ -17,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.text())
         .then(text => {
-            // console.log("RAW PHP válasz:", text);
             // document.getElementById('uzenet').innerText = text;
         })
         .catch(error => {

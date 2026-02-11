@@ -2,29 +2,53 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regisztráció</title>
+  <link rel="stylesheet" href="global-styles.css">
   <link rel="stylesheet" href="regisztracio.css">
 </head>
 <body>
+  <div class="register-wrapper">
+    <div class="glass-card register-card">
+      <div class="register-header">
+        <h1>Regisztráció</h1>
+        <p>Hozz létre egy új fiókot az alkalmazás használatához</p>
+      </div>
 
-<h2>Regisztráció</h2>
+      <form id="regForm" class="register-form">
+        <div class="form-group">
+          <label for="username">Felhasználónév</label>
+          <input 
+            type="text" 
+            id="username" 
+            placeholder="Válassz egy felhasználónevet"
+            required
+          >
+        </div>
 
-<form id="regForm">
-  <label>
-      Felhasználónév:
-      <input type="text" id="username" required>
-  </label><br><br>
+        <div class="form-group">
+          <label for="password">Jelszó</label>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="Hozz létre egy erős jelszót"
+            required
+          >
+        </div>
 
-  <label>
-      Jelszó:
-      <input type="password" id="password" required>
-  </label><br><br>
+        <button type="submit" class="btn-register">Regisztráció</button>
+      </form>
 
-  <button type="submit">Regisztráció</button>
-</form>
+      <div id="uzenet" class="message"></div>
 
-<p id="uzenet"></p>
+      <div class="register-footer">
+        <p>Már van fiókod? 
+          <a href="bejelentkezes.html">Jelentkezz be</a>
+        </p>
+      </div>
+    </div>
+  </div>
 
-<script src="regisztracio.js"></script>
+  <script src="regisztracio.js"></script>
 </body>
 </html>

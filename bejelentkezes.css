@@ -1,80 +1,92 @@
-body {
-    background-image: url("https://images.wallpapersden.com/image/download/serene-nature-hd-pixel-art-sunset_bmhlZ22UmZqaraWkpJRnamtlrWZpaGo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
+/* ============================================
+   LOGIN PAGE STYLES
+   ============================================ */
+
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
-h1 {
-    font-size: 70px;
-    color: rgb(0, 255, 221);
-    text-align: center;
-    margin-bottom: 40px;
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 3rem 2rem;
 }
 
-label {
-    font-size: 25px;
-    color: rgb(0, 255, 221);
-    font-weight: bolder;
-    display: block;
-    margin-bottom: 10px;
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-input {
-    width: 100%;
-    border-radius: 30px;
-    border: none;
-    padding: 17px;
-    background: linear-gradient(to left, rgb(255, 43, 142) 0%, #ffffff 100%);
-    font-size: 18px;
+.login-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
 }
 
-.GIGADIV {
-    border-radius: 30px;
-    padding: 50px;
-    background: linear-gradient(rgb(9, 9, 155) 0%, #ff6600 100%);
-    width: 60%;
-    max-width: 500px;
-    opacity: 0.95;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    text-align: center;
+.login-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
-button {
-    width: 100%;
-    border-radius: 30px;
-    border: none;
-    padding: 17px;
-    background: linear-gradient(to left, rgb(255, 43, 142) 0%, #ff8a05 100%);
-    font-size: 18px;
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-    transition: all 0.25s ease;
+.login-form {
+  margin: 2rem 0;
 }
 
-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+.login-form .form-group {
+  margin-bottom: 1.5rem;
 }
 
-a {
-    color: #00ffdd;
-    text-decoration: none;
-    font-weight: bold;
+.btn-login {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
 }
 
-a:hover {
-    text-decoration: underline;
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
 }
 
-#uzenet {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
+.login-footer p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.login-footer a {
+  color: var(--accent-color);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+  color: var(--accent-hover);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 480px) {
+  .login-wrapper {
+    padding: 1rem;
+  }
+
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-header h1 {
+    font-size: 1.5rem;
+  }
 }

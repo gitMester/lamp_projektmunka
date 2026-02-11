@@ -4,187 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Szavazási eredmények</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="global-styles.css">
+  <link rel="stylesheet" href="eredmenyek.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    .eredmeny-container {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .kerdes-cim {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 30px;
-      color: #333;
-      text-align: center;
-    }
-    
-    .diagram-container {
-      max-width: 500px;
-      margin: 0 auto 40px;
-      padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    
-    .valasz-item {
-      margin-bottom: 25px;
-      padding: 15px;
-      background-color: white;
-      border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    
-    .valasz-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .valasz-szoveg {
-      font-size: 16px;
-      font-weight: 500;
-      color: #333;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .szin-jelzo {
-      width: 20px;
-      height: 20px;
-      border-radius: 4px;
-      display: inline-block;
-    }
-    
-    .szavazat-info {
-      font-size: 14px;
-      color: #666;
-      margin-left: 15px;
-      white-space: nowrap;
-    }
-    
-    .progress-bar-container {
-      width: 100%;
-      height: 30px;
-      background-color: #e0e0e0;
-      border-radius: 15px;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .progress-bar {
-      height: 100%;
-      border-radius: 15px;
-      transition: width 0.5s ease-in-out;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 10px;
-      min-width: 0;
-    }
-    
-    .progress-percent {
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    }
-    
-    .osszes-szavazat {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 18px;
-      color: #666;
-      font-weight: 500;
-    }
-    
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #666;
-      font-size: 18px;
-    }
-    
-    .error {
-      color: red;
-      text-align: center;
-      padding: 20px;
-      background-color: #ffe6e6;
-      border-radius: 6px;
-      margin: 20px;
-    }
-    
-    .vissza-gomb {
-      display: inline-block;
-      margin: 20px auto;
-      padding: 10px 30px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      text-align: center;
-      transition: background-color 0.3s;
-    }
-    
-    .vissza-gomb:hover {
-      background-color: #0056b3;
-    }
-    
-    .nav-container {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .section-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin: 30px 0 20px;
-      color: #333;
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
-  <p>Bejelentkezve: <span id="felhasznalonevMegjelenites"></span> <a href="./index.html">Kijelentkezés</a></p>
-  <nav>
-    <a href="fooldal.html">Főoldal</a> |
-    <a href="ujkerdes.html">Új kérdés</a> |
-    <a href="#">Kérdéskezelés</a>
-  </nav>
-
-  <div class="nav-container">
-    <a href="fooldal.html" class="vissza-gomb">← Vissza a kérdésekhez</a>
-  </div>
-
-  <div class="loading">Eredmények betöltése...</div>
-
-  <div id="eredmenyContainer" class="eredmeny-container" style="display: none;">
-    <h2 class="kerdes-cim" id="kerdesCim"></h2>
-    
-    <div class="diagram-container">
-      <canvas id="pieChart"></canvas>
+  <header>
+    <div>
+      <h1>(Megették) A Termeszek</h1>
+      <nav>
+        <a href="fooldal.html" class="nav-link">Főoldal</a>
+        <a href="ujkerdes.html" class="nav-link">Új kérdés</a>
+      </nav>
     </div>
-    
-    <h3 class="section-title">Részletes eredmények</h3>
-    
-    <div id="valaszokLista">
-      <!-- A válaszok eredményei ide kerülnek dinamikusan -->
+  </header>
+
+  <main>
+    <div class="user-info">
+      <p>Bejelentkezve: <strong id="felhasznalonevMegjelenites"></strong> 
+        <a href="./index.html" class="logout-link">Kijelentkezés</a>
+      </p>
     </div>
-    
-    <div class="osszes-szavazat">
-      Összesen <strong id="osszSzavazat">0</strong> szavazat
+
+    <div class="back-button-container">
+      <a href="fooldal.html" class="btn-back">← Vissza a kérdésekhez</a>
     </div>
-  </div>
-  
+
+    <div class="loading">Eredmények betöltése...</div>
+
+    <div id="eredmenyContainer" class="results-container" style="display: none;">
+      <div class="results-header">
+        <h2 id="kerdesCim" class="question-title"></h2>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="pieChart"></canvas>
+      </div>
+
+      <div class="detailed-results">
+        <h3>Részletes eredmények</h3>
+        <div id="valaszokLista" class="results-list">
+          <!-- A válaszok eredményei ide kerülnek dinamikusan -->
+        </div>
+      </div>
+
+      <div class="total-votes">
+        Összesen <strong id="osszSzavazat">0</strong> szavazat
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <h2>Készítette: Kányai Márk, Léber Bence Bendegúz, Sveiczer Dávid</h2>
+  </footer>
+
   <script src="eredmenyek.js"></script>
 </body>
 </html>
