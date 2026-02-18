@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p class="question-text">${kerdes.qtext}</p>
                             <div class="question-meta">
                                 <span class="vote-count">
-                                    <span class="vote-count-badge">${kerdes.vote_count ?? 0} szavazat</span>
+                                    <span class="vote-count-badge">${kerdes.vote_count} szavazat</span>
                                 </span>
                             </div>
                         </div>
