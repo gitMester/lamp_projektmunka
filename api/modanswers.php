@@ -26,8 +26,8 @@ set_exception_handler(function(Throwable $e) {
     exit;
 });
 
-require __DIR__ . './require_admin.php';
-require __DIR__ . './db.php';
+require __DIR__ . '/require_admin.php';
+require __DIR__ . '/db.php';
 
 // Bemenet beolvasása
 $raw = file_get_contents('php://input');

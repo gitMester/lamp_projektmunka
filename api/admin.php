@@ -12,8 +12,8 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
     exit;
 });
 
-require __DIR__ . '/./require_admin.php'; // Csak admin használhatja
-require __DIR__ . './db.php';
+require __DIR__ . '/require_admin.php'; // Csak admin használhatja
+require __DIR__ . '/db.php';
 
 // Bemenet beolvasása
 $data = json_decode(file_get_contents('php://input'), true);

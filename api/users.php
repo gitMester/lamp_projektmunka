@@ -10,7 +10,7 @@ if (!isset($_SESSION['uid'])) {
     exit;
 }
 
-require __DIR__ . './db.php'; 
+require __DIR__ . '/db.php'; 
 
 $stmt = $conn->prepare("SELECT name FROM user WHERE uid = ?");
 $stmt->bind_param("i", $_SESSION['uid']);

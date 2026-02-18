@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const kerdesekLista = document.getElementById('kerdesekLista');
     const loading = document.querySelector('.loading');
 
-    fetch('./api/users.php')
+    fetch('/api/users.php')
         .then(res => res.json())
         .then(data => {
             if (data.loggedIn) {

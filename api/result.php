@@ -7,7 +7,7 @@ ini_set('display_startup_errors', 0);
 header('Content-Type: application/json; charset=utf-8');
 session_start();
 
-require __DIR__ . './db.php';
+require __DIR__ . '/db.php';
 
 $qid = isset($_GET['qid']) ? intval($_GET['qid']) : 0;
 //file_put_contents(__DIR__ . '/../debug.log', ">> QID: $qid\n", FILE_APPEND);

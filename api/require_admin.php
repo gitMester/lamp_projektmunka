@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . './require_login.php';
+require __DIR__ . '/require_login.php';
 header('Content-Type: application/json; charset=utf-8');
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {

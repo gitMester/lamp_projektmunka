@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0); // Ne jelenjen meg a kliensnek
 ini_set('log_errors', 1);
 
-require __DIR__ . './db.php'; // db.php NE írjon ki semmit, és ne legyen a végén
+require __DIR__ . '/db.php'; // db.php NE írjon ki semmit, és ne legyen a végén
 
 header('Content-Type: application/json; charset=utf-8');
 

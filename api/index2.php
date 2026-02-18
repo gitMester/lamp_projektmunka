@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . './db.php'; // db csatlakozás
+require __DIR__ . '/db.php'; // db csatlakozás
 
 // Lekérjük az összes kérdést bind_result-tal
 $stmt = $conn->prepare("SELECT qid, qtext FROM question ORDER BY qid ASC");

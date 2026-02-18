@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const qidParam = urlParams.get('qid');
 
   /* Felhasználó */
-  fetch('./api/users.php')
+  fetch('/api/users.php')
     .then(r => r.json())
     .then(d => {
       if (!d.loggedIn) {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   /* Kérdés betöltése – API mappából */
-  const questionUrl = qidParam ? `./api/question.php?qid=${qidParam}` : './api/question.php';
+  const questionUrl = qidParam ? `/api/question.php?qid=${qidParam}` : './api/question.php';
   
   fetch(questionUrl)
     .then(r => r.json())
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const res = await fetch('./api/vote.php', {
+    const res = await fetch('/api/vote.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Adatbázis kapcsolat
-require __DIR__ . './db.php';
+require __DIR__ . '/db.php';
 
 // JSON input olvasása
 $input = json_decode(file_get_contents('php://input'), true);

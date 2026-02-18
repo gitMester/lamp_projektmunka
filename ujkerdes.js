@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const uzenet = document.getElementById('uzenet');
 
   // Felhasználó lekérése
-  fetch('./api/users.php')
+  fetch('/api/users.php')
     .then(res => res.json())
     .then(data => {
       if (data.loggedIn) {
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adatok küldése
     try {
-      const response = await fetch('./api/add_question.php', {
+      const response = await fetch('/api/add_question.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

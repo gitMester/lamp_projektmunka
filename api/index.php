@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . './db.php'; // gyökérben lévő db.php
+require __DIR__ . '/db.php'; // gyökérben lévő db.php
 
 // Lekérjük a legutolsó kérdés qid-jét a navigációs sávhoz
 $qid = 1; // alapértelmezett

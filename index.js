@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loading = document.querySelector('.loading');
 
   // Kérdések betöltése
-  fetch('./api/questions.php')
+  fetch('/api/questions.php')
     .then(r => r.json())
     .then(data => {
       if (data.error) throw new Error(data.error);
