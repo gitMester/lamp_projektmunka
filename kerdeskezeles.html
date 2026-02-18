@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kérdéskezelés</title>
+  <link rel="stylesheet" href="style/global-styles.css">
+  <link rel="stylesheet" href="style/kerdeskezeles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>(Megették) A Termeszek</h1>
+      <nav>
+        <a href="fooldal.html" class="nav-link">← Vissza</a>
+        <a href="ujkerdes.html" class="nav-link">Új kérdés</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>Kérdéskezelés</h2>
+      <p>Kérdések és válaszok szerkesztése, eredmények megtekintése</p>
+    </div>
+
+    <div class="loading" id="loading">Kérdések betöltése...</div>
+
+    <div id="kerdesekLista" class="questions-list"></div>
+  </main>
+
+  <!-- Kérdés szerkesztő modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modalCim">Szerkesztés</h3>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modalMegse">Mégse</button>
+        <button class="btn-primary" id="modalMent">Mentés</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Törlés megerősítő modal -->
+  <div class="modal-overlay" id="torlesOverlay">
+    <div class="modal modal-sm" id="torlesModal">
+      <div class="modal-header">
+        <h3>Kérdés törlése</h3>
+        <button class="modal-close" id="torlesClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="torlesSzoveg">Biztosan törlöd ezt a kérdést? Ez a művelet nem vonható vissza.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="torlesMegse">Mégse</button>
+        <button class="btn-danger" id="torlesOk">Törlés</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <h2>Készítette: Kányai Márk, Léber Bence Bendegúz, Sveiczer Dávid</h2>
+  </footer>
+
+  <script src="kerdeskezeles.js"></script>
+</body>
+</html>
