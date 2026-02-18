@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 spanFelhasznalo.textContent = 'Vendég';
                 alert('Nem vagy bejelentkezve! Átirányítás a bejelentkezéshez.');
-                window.location.href = './bejelentkezes.html';
+                window.location.href = '/bejelentkezes.html';
             }
         })
         .catch(err => {

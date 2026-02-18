@@ -13,8 +13,13 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 require __DIR__ . '/require_login.php';
 require __DIR__ . '/db.php';
 
-// Lekérdezzük az összes kérdést
-$stmt = $conn->prepare("SELECT qid, qtext FROM question ORDER BY qid DESC");
+$stmt = $conn->prepare("
+    SELECT q.qid, q.qtext, COUNT(*) AS vote_count
+    FROM question q
+    LEFT JOIN vote v ON v.qid = q.qid
+    GROUP BY q.qid, q.qtext
+    ORDER BY q.qid DESC
+");
 if (!$stmt) {
     http_response_code(500);
     echo json_encode(["error" => "Lekérdezési hiba: " . $conn->error]);
@@ -22,13 +27,14 @@ if (!$stmt) {
 }
 
 $stmt->execute();
-$stmt->bind_result($qid, $qtext);
+$stmt->bind_result($qid, $qtext, $vote_count);
 
 $questions = [];
 while ($stmt->fetch()) {
     $questions[] = [
-        "qid" => (int)$qid,
-        "qtext" => $qtext
+        "qid"        => (int)$qid,
+        "qtext"      => $qtext,
+        "vote_count" => (int)$vote_count
     ];
 }
 
