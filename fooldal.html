@@ -3,44 +3,434 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elérhető kérdések</title>
-  <link rel="stylesheet" href="style/global-styles.css">
-  <link rel="stylesheet" href="style/fooldal.css">
+  <title>Királyság — Elérhető kérdések</title>
+  <link rel="stylesheet" href="fooldal.css">
 </head>
 <body>
-  <header>
+
+<!-- ════════════════════════════════════════════════════
+     INTRO — Napsütéses külső jelenet
+═════════════════════════════════════════════════════ -->
+<div id="intro">
+
+  <!-- Sky (clouds + birds added by JS) -->
+  <div class="sky">
+
+    <!-- Sun -->
+    <div class="sun">
+      <div class="sun-rays" id="sun-rays"></div>
+    </div>
+
+    <!-- Clouds and birds injected by JS -->
+
+  </div>
+
+  <!-- Camera zooms in toward the castle gate -->
+  <div id="camera-rig">
+    <div id="scene">
+
+      <!-- Back ground strips -->
+      <div class="ground-back"></div>
+      <div class="ground-mid-strip"></div>
+
+      <!-- ══ CASTLE SVG ══ -->
+      <div id="castle-svg-wrap">
+        <svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Stone gradients -->
+            <linearGradient id="sG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#c8c2b8"/>
+              <stop offset="100%" stop-color="#a09890"/>
+            </linearGradient>
+            <linearGradient id="sGDark" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#9e9890"/>
+              <stop offset="100%" stop-color="#7a7468"/>
+            </linearGradient>
+            <linearGradient id="sGLight" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#dedad4"/>
+              <stop offset="100%" stop-color="#beb8b0"/>
+            </linearGradient>
+            <!-- Gate arch dark inside -->
+            <linearGradient id="gInside" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a1008"/>
+              <stop offset="100%" stop-color="#0a0804"/>
+            </linearGradient>
+            <!-- Roof gradient (triangular towers) -->
+            <linearGradient id="roofG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#b82020"/>
+              <stop offset="100%" stop-color="#7a1010"/>
+            </linearGradient>
+            <!-- Shadow on right faces -->
+            <linearGradient id="shadowR" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,0.22)"/>
+            </linearGradient>
+          </defs>
+
+          <!-- ══ GRASS STRIPE at base ══ -->
+          <rect x="0" y="295" width="900" height="45" fill="#5aaa30"/>
+          <ellipse cx="450" cy="295" rx="460" ry="12" fill="#7acc44" opacity=".6"/>
+
+          <!-- ══ LEFT TOWER ══ -->
+          <!-- Body -->
+          <rect x="118" y="108" width="110" height="192" fill="url(#sG)"/>
+          <!-- Shadow face right -->
+          <rect x="196" y="108" width="32" height="192" fill="url(#shadowR)"/>
+          <!-- Battlements -->
+          <rect x="115" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="137" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="159" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="181" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="203" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <!-- Battlement base strip -->
+          <rect x="115" y="106" width="114" height="6" fill="url(#sGDark)"/>
+          <!-- Conical roof -->
+          <polygon points="173,30 115,100 231,100" fill="url(#roofG)"/>
+          <!-- Roof shadow -->
+          <polygon points="173,30 195,62 231,100" fill="rgba(0,0,0,.18)"/>
+          <!-- Flag pole + banner -->
+          <rect x="171" y="14" width="4" height="18" fill="#5c3010"/>
+          <polygon points="175,15 175,27 192,21" fill="#c82020"/>
+          <!-- Windows -->
+          <rect x="155" y="135" width="14" height="22" rx="5" fill="url(#gInside)" opacity=".8"/>
+          <rect x="155" y="175" width="14" height="22" rx="5" fill="url(#gInside)" opacity=".8"/>
+          <rect x="155" y="215" width="14" height="22" rx="5" fill="url(#gInside)" opacity=".8"/>
+          <!-- Window light glow -->
+          <rect x="154" y="134" width="16" height="24" rx="5" fill="#ffdd88" opacity=".18"/>
+          <rect x="154" y="174" width="16" height="24" rx="5" fill="#ffdd88" opacity=".18"/>
+
+          <!-- ══ RIGHT TOWER ══ -->
+          <rect x="672" y="108" width="110" height="192" fill="url(#sG)"/>
+          <rect x="672" y="108" width="32" height="192" fill="rgba(255,255,255,.06)"/>
+          <rect x="704" y="108" width="78" height="192" fill="url(#shadowR)"/>
+          <rect x="669" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="691" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="713" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="735" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="757" y="98"  width="16" height="20" rx="1" fill="url(#sGDark)"/>
+          <rect x="669" y="106" width="114" height="6" fill="url(#sGDark)"/>
+          <polygon points="727,30 669,100 785,100" fill="url(#roofG)"/>
+          <polygon points="727,30 749,62 785,100" fill="rgba(0,0,0,.18)"/>
+          <rect x="725" y="14" width="4" height="18" fill="#5c3010"/>
+          <polygon points="729,15 729,27 746,21" fill="#c82020"/>
+          <rect x="725" y="135" width="14" height="22" rx="5" fill="url(#gInside)" opacity=".8"/>
+          <rect x="725" y="175" width="14" height="22" rx="5" fill="url(#gInside)" opacity=".8"/>
+          <rect x="725" y="215" width="14" height="22" rx="5" fill="url(#gInside)" opacity=".8"/>
+          <rect x="724" y="134" width="16" height="24" rx="5" fill="#ffdd88" opacity=".18"/>
+          <rect x="724" y="174" width="16" height="24" rx="5" fill="#ffdd88" opacity=".18"/>
+
+          <!-- ══ MAIN KEEP (center body) ══ -->
+          <rect x="228" y="140" width="444" height="160" fill="url(#sGLight)"/>
+          <!-- Right face shadow -->
+          <rect x="584" y="140" width="88" height="160" fill="url(#shadowR)"/>
+          <!-- Keep battlements — full row -->
+          <rect x="226" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="247" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="268" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="289" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="310" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="331" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="352" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="373" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="394" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="415" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="436" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="457" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="478" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="499" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="520" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="541" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="562" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="583" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="604" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="625" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <rect x="646" y="128" width="15" height="18" rx="1" fill="url(#sG)"/>
+          <!-- Battlement base strip -->
+          <rect x="226" y="136" width="448" height="8" fill="url(#sGDark)"/>
+          <!-- Keep windows row 1 -->
+          <rect x="270" y="162" width="20" height="30" rx="8" fill="url(#gInside)" opacity=".75"/>
+          <rect x="310" y="162" width="20" height="30" rx="8" fill="url(#gInside)" opacity=".75"/>
+          <rect x="580" y="162" width="20" height="30" rx="8" fill="url(#gInside)" opacity=".75"/>
+          <rect x="618" y="162" width="20" height="30" rx="8" fill="url(#gInside)" opacity=".75"/>
+          <!-- Window sunlight gleam -->
+          <rect x="269" y="161" width="22" height="32" rx="8" fill="#ffe088" opacity=".2"/>
+          <rect x="617" y="161" width="22" height="32" rx="8" fill="#ffe088" opacity=".2"/>
+
+          <!-- ══ GATE ARCH (arched opening) ══ -->
+          <!-- Arch surround – stone border -->
+          <rect x="330" y="188" width="14"  height="112" fill="url(#sGDark)"/>
+          <rect x="556" y="188" width="14"  height="112" fill="url(#sGDark)"/>
+          <path d="M330,192 Q450,130 570,192 Z" fill="url(#sGDark)"/>
+          <!-- Arch opening (dark inside) -->
+          <path d="M344,196 Q450,144 556,196 L556,300 L344,300 Z" fill="url(#gInside)"/>
+          <!-- Arch keystone -->
+          <polygon points="440,143 450,134 460,143 457,154 443,154" fill="url(#sG)"/>
+          <!-- Arch decorative ring -->
+          <path d="M344,196 Q450,144 556,196" stroke="rgba(160,140,120,.4)" stroke-width="3" fill="none"/>
+          <!-- Portcullis vertical bars (visible when closed) -->
+          <line x1="372" y1="200" x2="372" y2="300" stroke="#5c3010" stroke-width="3" opacity=".7"/>
+          <line x1="397" y1="198" x2="397" y2="300" stroke="#5c3010" stroke-width="3" opacity=".7"/>
+          <line x1="422" y1="195" x2="422" y2="300" stroke="#5c3010" stroke-width="3" opacity=".7"/>
+          <line x1="447" y1="194" x2="447" y2="300" stroke="#5c3010" stroke-width="3" opacity=".7"/>
+          <line x1="472" y1="194" x2="472" y2="300" stroke="#5c3010" stroke-width="3" opacity=".7"/>
+          <line x1="497" y1="196" x2="497" y2="300" stroke="#5c3010" stroke-width="3" opacity=".7"/>
+          <line x1="522" y1="199" x2="522" y2="300" stroke="#5c3010" stroke-width="3" opacity=".7"/>
+          <line x1="348" y1="218" x2="552" y2="218" stroke="#5c3010" stroke-width="2.5" opacity=".7"/>
+          <line x1="348" y1="238" x2="552" y2="238" stroke="#5c3010" stroke-width="2.5" opacity=".7"/>
+          <line x1="348" y1="258" x2="552" y2="258" stroke="#5c3010" stroke-width="2.5" opacity=".7"/>
+          <line x1="348" y1="278" x2="552" y2="278" stroke="#5c3010" stroke-width="2.5" opacity=".7"/>
+          <!-- Gate road / cobblestone path from arch -->
+          <ellipse cx="450" cy="300" rx="112" ry="8" fill="#a07838" opacity=".35"/>
+
+          <!-- ══ SUNLIT STONE DETAIL (mortar lines on keep) ══ -->
+          <line x1="228" y1="165" x2="672" y2="165" stroke="rgba(140,120,100,.25)" stroke-width="1"/>
+          <line x1="228" y1="195" x2="672" y2="195" stroke="rgba(140,120,100,.25)" stroke-width="1"/>
+          <line x1="228" y1="225" x2="672" y2="225" stroke="rgba(140,120,100,.25)" stroke-width="1"/>
+          <line x1="228" y1="255" x2="672" y2="255" stroke="rgba(140,120,100,.25)" stroke-width="1"/>
+          <!-- Vertical mortar lines – staggered -->
+          <line x1="262" y1="144" x2="262" y2="165" stroke="rgba(140,120,100,.2)" stroke-width="1"/>
+          <line x1="296" y1="144" x2="296" y2="165" stroke="rgba(140,120,100,.2)" stroke-width="1"/>
+          <line x1="245" y1="165" x2="245" y2="195" stroke="rgba(140,120,100,.2)" stroke-width="1"/>
+          <line x1="279" y1="165" x2="279" y2="195" stroke="rgba(140,120,100,.2)" stroke-width="1"/>
+
+          <!-- ══ SUNLIGHT SHEEN on left face ══ -->
+          <rect x="228" y="140" width="60" height="160" fill="rgba(255,255,220,.10)" rx="0"/>
+
+          <!-- ══ WALL CONNECTIONS (towers to keep) ══ -->
+          <rect x="228" y="200" width="100" height="100" fill="url(#sG)"/>
+          <rect x="572" y="200" width="100" height="100" fill="url(#sG)"/>
+          <rect x="291" y="200" width="37"  height="100" fill="url(#shadowR)"/>
+          <rect x="572" y="200" width="37"  height="100" fill="rgba(255,255,255,.05)"/>
+          <rect x="609" y="200" width="63"  height="100" fill="url(#shadowR)"/>
+          <!-- Wall battlements left connection -->
+          <rect x="226" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="242" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="258" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="274" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="290" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="306" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <!-- Wall battlements right connection -->
+          <rect x="572" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="588" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="604" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="620" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="636" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="652" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+          <rect x="668" y="190" width="10" height="14" rx="1" fill="url(#sGDark)"/>
+
+          <!-- ══ PATH / DRAWBRIDGE HINT ══ -->
+          <rect x="372" y="298" width="156" height="18" fill="#c89448" opacity=".7" rx="1"/>
+          <rect x="388" y="300" width="124" height="4"  fill="#a07030" opacity=".5" rx="1"/>
+          <!-- cobble dots -->
+          <ellipse cx="400" cy="306" rx="10" ry="4" fill="#b08038" opacity=".5"/>
+          <ellipse cx="430" cy="310" rx="10" ry="4" fill="#b08038" opacity=".5"/>
+          <ellipse cx="460" cy="306" rx="10" ry="4" fill="#b08038" opacity=".5"/>
+          <ellipse cx="490" cy="310" rx="10" ry="4" fill="#b08038" opacity=".5"/>
+          <ellipse cx="520" cy="306" rx="10" ry="4" fill="#b08038" opacity=".5"/>
+        </svg>
+
+        <!-- CSS GATE DOORS overlaid on SVG arch -->
+        <div class="gate-door gate-door-left"  id="gate-left"></div>
+        <div class="gate-door gate-door-right" id="gate-right"></div>
+        <div class="gate-inner-glow"           id="gate-glow"></div>
+
+      </div><!-- /castle-svg-wrap -->
+
+      <!-- Trees on left -->
+      <div class="tree-wrap" style="left:2%; --ts:5s;--td:.3s;--ta:-1.4deg;--tb:1.6deg;">
+        <svg width="90" height="170" viewBox="0 0 90 170">
+          <rect x="40" y="102" width="12" height="68" rx="3" fill="#7a4418"/>
+          <rect x="42" y="102" width="8"  height="68" rx="2" fill="#9a5a20"/>
+          <ellipse cx="46" cy="78" rx="44" ry="32" fill="#3a8020"/>
+          <ellipse cx="30" cy="65" rx="30" ry="24" fill="#4a9828"/>
+          <ellipse cx="62" cy="63" rx="28" ry="23" fill="#50a02c"/>
+          <ellipse cx="46" cy="52" rx="34" ry="26" fill="#5aaa30"/>
+          <ellipse cx="46" cy="38" rx="26" ry="21" fill="#6aba38"/>
+          <ellipse cx="36" cy="34" rx="12" ry="8"  fill="#80cc44" opacity=".6"/>
+        </svg>
+      </div>
+      <div class="tree-wrap" style="left:10%; --ts:6.5s;--td:.8s;--ta:-1.8deg;--tb:1.2deg;">
+        <svg width="60" height="130" viewBox="0 0 60 130">
+          <rect x="26" y="80" width="8" height="50" rx="2" fill="#7a4418"/>
+          <polygon points="30,8 2,82 58,82" fill="#2e7018"/>
+          <polygon points="30,22 5,72 55,72" fill="#3a8820"/>
+          <polygon points="30,36 9,66 51,66" fill="#4a9a28"/>
+          <path d="M30,8 Q40,18 50,22" stroke="rgba(200,240,160,.35)" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+      <div class="tree-wrap" style="left:16%; --ts:4.8s;--td:1.2s;--ta:-1.0deg;--tb:1.8deg;">
+        <svg width="74" height="152" viewBox="0 0 74 152">
+          <rect x="33" y="92" width="10" height="60" rx="2" fill="#7a4418"/>
+          <rect x="35" y="92" width="6"  height="60" rx="1" fill="#9a5a20"/>
+          <ellipse cx="38" cy="70" rx="36" ry="28" fill="#3a8020"/>
+          <ellipse cx="24" cy="58" rx="24" ry="20" fill="#4a9828"/>
+          <ellipse cx="52" cy="56" rx="22" ry="20" fill="#50a02c"/>
+          <ellipse cx="38" cy="46" rx="28" ry="22" fill="#5aaa30"/>
+          <ellipse cx="38" cy="32" rx="20" ry="17" fill="#6aba38"/>
+        </svg>
+      </div>
+
+      <!-- Trees on right -->
+      <div class="tree-wrap" style="right:2%; --ts:5.5s;--td:.5s;--ta:-1.6deg;--tb:1.2deg;">
+        <svg width="86" height="162" viewBox="0 0 86 162">
+          <rect x="38" y="98" width="12" height="64" rx="3" fill="#7a4418"/>
+          <ellipse cx="44" cy="75" rx="42" ry="30" fill="#3a8020"/>
+          <ellipse cx="28" cy="62" rx="28" ry="22" fill="#4a9828"/>
+          <ellipse cx="58" cy="61" rx="26" ry="21" fill="#50a02c"/>
+          <ellipse cx="44" cy="50" rx="32" ry="24" fill="#5aaa30"/>
+          <ellipse cx="44" cy="36" rx="24" ry="20" fill="#6aba38"/>
+          <ellipse cx="34" cy="32" rx="11" ry="7"  fill="#80cc44" opacity=".6"/>
+        </svg>
+      </div>
+      <div class="tree-wrap" style="right:10%; --ts:7s;--td:.2s;--ta:-1.2deg;--tb:2.0deg;">
+        <svg width="56" height="120" viewBox="0 0 56 120">
+          <rect x="24" y="74" width="8" height="46" rx="2" fill="#7a4418"/>
+          <polygon points="28,6 1,76 55,76" fill="#2e7018"/>
+          <polygon points="28,20 4,68 52,68" fill="#3a8820"/>
+          <polygon points="28,34 8,62 48,62" fill="#4a9a28"/>
+        </svg>
+      </div>
+      <div class="tree-wrap" style="right:17%; --ts:5.2s;--td:1.0s;--ta:-1.4deg;--tb:1.4deg;">
+        <svg width="70" height="145" viewBox="0 0 70 145">
+          <rect x="31" y="88" width="10" height="57" rx="2" fill="#7a4418"/>
+          <ellipse cx="36" cy="66" rx="34" ry="27" fill="#3a8020"/>
+          <ellipse cx="22" cy="54" rx="22" ry="19" fill="#4a9828"/>
+          <ellipse cx="50" cy="52" rx="20" ry="19" fill="#50a02c"/>
+          <ellipse cx="36" cy="44" rx="26" ry="21" fill="#5aaa30"/>
+          <ellipse cx="36" cy="30" rx="18" ry="16" fill="#6aba38"/>
+        </svg>
+      </div>
+
+      <!-- Front ground -->
+      <div class="ground-front"></div>
+
+    </div><!-- /scene -->
+  </div><!-- /camera-rig -->
+
+  <!-- Caption -->
+  <div class="intro-caption">
+    <h2>⚜ Királyság Kapuja ⚜</h2>
+    <p>Üdvözöljük, derék vándor!</p>
+  </div>
+
+</div><!-- /intro -->
+
+
+<!-- ════════════════════════════════════════════════════
+     THRONE ROOM — belső jelenet
+═════════════════════════════════════════════════════ -->
+<div id="throne-room">
+
+  <!-- Wall banners -->
+  <div class="wall-banners left">
+    <div class="wall-banner" style="--bt:12%"></div>
+    <div class="wall-banner" style="--bt:48%"></div>
+    <div class="wall-banner" style="--bt:78%"></div>
+  </div>
+  <div class="wall-banners right">
+    <div class="wall-banner" style="--bt:12%"></div>
+    <div class="wall-banner" style="--bt:48%"></div>
+    <div class="wall-banner" style="--bt:78%"></div>
+  </div>
+
+  <!-- Torch sconces -->
+  <div class="torch-sconce left" style="--tt:16%">
+    <div class="torch-flame-el"><div class="torch-glow-orb"></div></div>
+    <div class="torch-pole"></div>
+  </div>
+  <div class="torch-sconce right" style="--tt:16%">
+    <div class="torch-flame-el"><div class="torch-glow-orb"></div></div>
+    <div class="torch-pole"></div>
+  </div>
+  <div class="torch-sconce left" style="--tt:52%">
+    <div class="torch-flame-el"><div class="torch-glow-orb"></div></div>
+    <div class="torch-pole"></div>
+  </div>
+  <div class="torch-sconce right" style="--tt:52%">
+    <div class="torch-flame-el"><div class="torch-glow-orb"></div></div>
+    <div class="torch-pole"></div>
+  </div>
+
+  <!-- Stone arch at top of room (decorative) -->
+  <div class="room-arch">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="archG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3a2e20"/>
+          <stop offset="100%" stop-color="#2a2018"/>
+        </linearGradient>
+      </defs>
+      <!-- Repeating arch pattern -->
+      <path d="
+        M0,0 L0,80 Q60,20 120,80 L120,0 Z
+        M120,0 L120,80 Q180,20 240,80 L240,0 Z
+        M240,0 L240,80 Q300,20 360,80 L360,0 Z
+        M360,0 L360,80 Q420,20 480,80 L480,0 Z
+        M480,0 L480,80 Q540,20 600,80 L600,0 Z
+        M600,0 L600,80 Q660,20 720,80 L720,0 Z
+        M720,0 L720,80 Q780,20 840,80 L840,0 Z
+        M840,0 L840,80 Q900,20 960,80 L960,0 Z
+        M960,0 L960,80 Q1020,20 1080,80 L1080,0 Z
+        M1080,0 L1080,80 Q1140,20 1200,80 L1200,0 Z
+        M1200,0 L1200,80 Q1260,20 1320,80 L1320,0 Z
+        M1320,0 L1320,80 Q1380,20 1440,80 L1440,0 Z
+      " fill="url(#archG)" stroke="rgba(212,160,16,.15)" stroke-width="1"/>
+      <!-- Keystone dots -->
+      <circle cx="120"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="240"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="360"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="480"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="600"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="720"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="840"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="960"  cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="1080" cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="1200" cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+      <circle cx="1320" cy="80" r="5" fill="rgba(212,160,16,.25)"/>
+    </svg>
+  </div>
+
+  <!-- Header -->
+  <header class="room-header">
     <div>
-      <h1>(Megették) A Termeszek</h1>
+      <h1>⚜ (Megetet) A Termeszek</h1>
       <nav>
-        <a href="ujkerdes.html" class="nav-link">Új kérdés</a>
-        <a href="kerdeskezeles.html" class="nav-link">Kérdéskezelés</a>
+        <a href="ujkerdes.html" class="nav-link">✦ Új kérdés</a>
+        <a href="#" class="nav-link">⚔ Kérdéskezelés</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <div class="user-info">
-      <p>Bejelentkezve: <strong id="felhasznalonevMegjelenites"></strong> 
-        <a href="index.html" class="logout-link">Kijelentkezés</a>
-      </p>
+  <main class="room-main">
+
+    <!-- User bar -->
+    <div class="user-bar">
+      Bejelentkezve:&nbsp;
+      <strong id="felhasznalonevMegjelenites">…</strong>
+      &emsp;
+      <a href="index.html" class="logout-link">Kijelentkezés</a>
     </div>
 
-    <div class="page-header">
+    <!-- Section heading -->
+    <div class="section-head">
       <h2>Elérhető kérdések</h2>
-      <p>Válassz egy kérdést szavazáshoz vagy eredmények megtekintéséhez</p>
+      <p>Válassz egy kérdést szavazáshoz vagy az eredmények megtekintéséhez</p>
     </div>
 
-    <div class="loading">Kérdések betöltése...</div>
+    <div class="loading">Kérdések betöltése…</div>
 
     <div id="kerdesekLista" class="questions-grid">
-      <!-- A kérdések ide kerülnek dinamikusan grid kartya formatumban -->
+      <!-- Dynamically populated -->
     </div>
+
   </main>
 
   <footer>
-    <h2>Készítette: Kányai Márk, Léber Bence Bendegúz, Sveiczer Dávid</h2>
+    <h2>Készítette: Kányai Márk &ensp;·&ensp; Léber Bence Bendegúz &ensp;·&ensp; Sveiczer Dávid</h2>
   </footer>
 
-  <script src="fooldal.js"></script>
+</div><!-- /throne-room -->
+
+<script src="fooldal.js"></script>
 </body>
 </html>
