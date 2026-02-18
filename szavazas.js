@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const qidParam = urlParams.get('qid');
 
   /* Felhasználó */
-  fetch('/api/users.php')
+  fetch('./api/users.php')
     .then(r => r.json())
     .then(d => {
       if (!d.loggedIn) {
