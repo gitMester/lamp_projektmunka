@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adatok küldése
     try {
-      const response = await fetch('/api/add_question.php', {
+      const response = await fetch('./api/add_question.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -140,7 +140,7 @@ function frissitTorolGombok() {
   const valaszItemek = document.querySelectorAll('.valasz-item');
   valaszItemek.forEach((item, index) => {
     const torolGomb = item.querySelector('button');
-    if (valaszItemek.length <= 2) {
+    if (valaszItemek.length <= 0) {
       torolGomb.style.visibility = 'hidden';
     } else {
       torolGomb.style.visibility = 'visible';
