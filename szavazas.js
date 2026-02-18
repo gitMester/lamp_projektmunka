@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const res = await fetch('/api/vote.php', {
+    const res = await fetch('./api/vote.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
