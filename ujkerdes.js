@@ -110,7 +110,7 @@ function ujValasz() {
   const ujValaszItem = document.createElement('div');
   ujValaszItem.className = 'valasz-item';
   ujValaszItem.innerHTML = `
-    <input type="text" placeholder="${valaszCounter}. válasz" data-valasz="${valaszCounter}">
+    <input type="text" placeholder="${valaszCounter + 1}. válasz" data-valasz="${valaszCounter}">
     <button type="button" onclick="torolValasz(this)">Törlés</button>
   `;
   valaszokLista.appendChild(ujValaszItem);
