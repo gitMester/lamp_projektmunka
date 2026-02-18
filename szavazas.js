@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   /* Kérdés betöltése – API mappából */
-  const questionUrl = qidParam ? `/api/question.php?qid=${qidParam}` : './api/question.php';
+  const questionUrl = qidParam ? `./api/question.php?qid=${qidParam}` : './api/question.php';
   
   fetch(questionUrl)
     .then(r => r.json())

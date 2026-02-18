@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value
         };
-        fetch('/api/regisztracio.php', {
+        fetch('./api/regisztracio.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

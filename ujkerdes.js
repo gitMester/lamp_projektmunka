@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const uzenet = document.getElementById('uzenet');
 
   // Felhasználó lekérése
-  fetch('/api/users.php')
+  fetch('./api/users.php')
     .then(res => res.json())
     .then(data => {
       if (data.loggedIn) {

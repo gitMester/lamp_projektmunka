@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const valaszokLista = document.getElementById('valaszokLista');
     const osszSzavazat = document.getElementById('osszSzavazat');
 
-    fetch('/api/users.php')
+    fetch('./api/users.php')
         .then(res => res.json())
         .then(data => {
             if (data.loggedIn) {

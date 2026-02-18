@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch('/api/me.php', {
+  fetch('./api/me.php', {
     credentials: 'include'
   })
     .then(res => {
