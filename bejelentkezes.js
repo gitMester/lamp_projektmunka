@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Bejelentkezési kísérlet:', adat.name);
 
         try {
-            const response = await fetch('/api/login.php', {
+            const response = await fetch('./api/login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
