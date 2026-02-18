@@ -26,8 +26,8 @@ set_exception_handler(function(Throwable $e) {
     exit;
 });
 
-require __DIR__ . '/require_login.php';
-require __DIR__ . '/../db.php';
+require __DIR__ . './require_login.php';
+require __DIR__ . './db.php';
 
 $raw = file_get_contents('php://input');
 //file_put_contents(__DIR__ . '/../debug.log', ">> RAW POST: $raw\n", FILE_APPEND);

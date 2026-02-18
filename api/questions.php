@@ -10,8 +10,8 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
     exit;
 });
 
-require __DIR__ . '/require_login.php';
-require __DIR__ . '/../db.php';
+require __DIR__ . './require_login.php';
+require __DIR__ . './db.php';
 
 // Lekérdezzük az összes kérdést
 $stmt = $conn->prepare("SELECT qid, qtext FROM question ORDER BY qid DESC");

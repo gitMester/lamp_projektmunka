@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . '/db.php'; // gyökérben lévő db.php
+require __DIR__ . './db.php'; // gyökérben lévő db.php
 
 // Lekérjük a legutolsó kérdés qid-jét a navigációs sávhoz
 $qid = 1; // alapértelmezett
@@ -38,7 +38,7 @@ if ($latest && $latest->num_rows > 0) {
     <?php else: ?>
       <!-- Bejelentkezett felhasználó -->
       Bejelentkezve: <strong><?= htmlspecialchars($_SESSION['name']) ?></strong>
-      <form action="api/logout.php" method="post" style="display:inline;">
+      <form action="./logout.php" method="post" style="display:inline;">
         <button type="submit">Kijelentkezés</button>
       </form>
     <?php endif; ?>

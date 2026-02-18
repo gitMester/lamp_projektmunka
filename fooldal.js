@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const kerdesekLista = document.getElementById('kerdesekLista');
     const loading = document.querySelector('.loading');
 
-    // Felhasználó ellenőrzése
     fetch('./api/users.php')
         .then(res => res.json())
         .then(data => {
@@ -20,42 +19,57 @@ document.addEventListener('DOMContentLoaded', function() {
             spanFelhasznalo.textContent = 'Vendég';
         });
 
-    // Kérdések betöltése
     fetch('./api/questions.php')
         .then(r => r.json())
         .then(data => {
             if (data.error) throw new Error(data.error);
-            
+
             kerdesekLista.innerHTML = '';
-            
+
             if (data.length === 0) {
-                kerdesekLista.innerHTML = '<li>Nincsenek elérhető kérdések.</li>';
+                kerdesekLista.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Nincsenek elérhető kérdések</h3>
+                        <p>Jelenleg nincs aktív szavazás.</p>
+                    </div>`;
             } else {
                 data.forEach(kerdes => {
-                    const li = document.createElement('li');
-                    li.className = 'kerdes-item';
-                    li.innerHTML = `
-                        <span class="kerdes-szoveg">${kerdes.qtext}</span>
-                        <button class="szavazas-gomb" data-qid="${kerdes.qid}">Szavazás</button>
-                        <a href="eredmenyek.html?qid=${kerdes.qid}">[Eredmények]</a>
+                    const card = document.createElement('div');
+                    card.className = 'question-card';
+                    card.innerHTML = `
+                        <div class="question-header">
+                            <p class="question-text">${kerdes.qtext}</p>
+                            <div class="question-meta">
+                                <span class="vote-count">
+                                    <span class="vote-count-badge">${kerdes.vote_count ?? 0} szavazat</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="question-actions">
+                            <button class="btn-vote" data-qid="${kerdes.qid}">Szavazás</button>
+                            <a href="eredmenyek.html?qid=${kerdes.qid}" class="btn-results">Eredmények</a>
+                        </div>
                     `;
-                    kerdesekLista.appendChild(li);
+                    kerdesekLista.appendChild(card);
                 });
 
-                // Szavazás gombok eseménykezelői
-                document.querySelectorAll('.szavazas-gomb').forEach(gomb => {
+                document.querySelectorAll('.btn-vote').forEach(gomb => {
                     gomb.addEventListener('click', function() {
                         const qid = this.getAttribute('data-qid');
                         window.location.href = `szavazas.html?qid=${qid}`;
                     });
                 });
             }
-            
+
             if (loading) loading.style.display = 'none';
         })
         .catch(err => {
             console.error('Hiba a kérdések betöltésekor:', err);
-            kerdesekLista.innerHTML = '<li class="error">Hiba történt a kérdések betöltésekor.</li>';
+            kerdesekLista.innerHTML = `
+                <div class="empty-state">
+                    <h3>Hiba történt</h3>
+                    <p>Nem sikerült betölteni a kérdéseket.</p>
+                </div>`;
             if (loading) loading.style.display = 'none';
         });
 });

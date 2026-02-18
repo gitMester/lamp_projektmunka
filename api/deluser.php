@@ -1,6 +1,6 @@
 <?php
 require 'require_admin.php'; // Csak admin törölhet
-require 'db.php';
+require './db.php';
 header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {

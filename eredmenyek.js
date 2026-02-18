@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const valaszokLista = document.getElementById('valaszokLista');
     const osszSzavazat = document.getElementById('osszSzavazat');
 
-    // Felhasználó ellenőrzése
     fetch('./api/users.php')
         .then(res => res.json())
         .then(data => {
@@ -23,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
             spanFelhasznalo.textContent = 'Vendég';
         });
 
-    // URL paraméter beolvasása
     const urlParams = new URLSearchParams(window.location.search);
     const qid = urlParams.get('qid');
 
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Eredmények betöltése
     betoltEredmenyek(qid);
 });
 
@@ -43,7 +40,6 @@ function betoltEredmenyek(qid) {
     const valaszokLista = document.getElementById('valaszokLista');
     const osszSzavazat = document.getElementById('osszSzavazat');
 
-    // Alap színek
     const alapSzinek = [
         '#FF6384',
         '#36A2EB',
@@ -57,7 +53,6 @@ function betoltEredmenyek(qid) {
         '#F39C12'
     ];
 
-    // Eredmények lekérése a meglévő result.php-ből
     fetch(`./api/result.php?qid=${qid}`)
         .then(res => res.json())
         .then(data => {
@@ -65,10 +60,8 @@ function betoltEredmenyek(qid) {
                 throw new Error(data.error);
             }
 
-            // Kérdés címének beállítása
             kerdesCim.textContent = data.qtext;
 
-            // Összes szavazat kiszámítása
             let osszSzavazatSzam = 0;
             data.answers.forEach(answer => {
                 osszSzavazatSzam += answer.votes;
@@ -76,16 +69,13 @@ function betoltEredmenyek(qid) {
 
             osszSzavazat.textContent = osszSzavazatSzam;
 
-            // Kördiagram adatok előkészítése
             const labels = data.answers.map(answer => answer.atext);
             const votesData = data.answers.map(answer => answer.votes);
             const colors = data.answers.map((_, index) => alapSzinek[index % alapSzinek.length]);
 
-            // Canvas és context
             const canvas = document.getElementById('pieChart');
             const ctx = canvas.getContext('2d');
 
-            // Radial gradient színek létrehozása minden szelethez
             const gradientColors = colors.map(color => {
                 const gradient = ctx.createRadialGradient(
                     canvas.width / 2, 
@@ -96,7 +86,6 @@ function betoltEredmenyek(qid) {
                     canvas.width / 2
                 );
                 
-                // Világosabb szín a középen, sötétebb a széleken
                 gradient.addColorStop(0, lightenColor(color, 40));
                 gradient.addColorStop(0.5, color);
                 gradient.addColorStop(1, darkenColor(color, 20));
@@ -104,7 +93,6 @@ function betoltEredmenyek(qid) {
                 return gradient;
             });
 
-            // Kördiagram létrehozása
             new Chart(ctx, {
                 type: 'pie',
                 data: {
@@ -153,7 +141,6 @@ function betoltEredmenyek(qid) {
                 }
             });
 
-            // Válaszok megjelenítése progress bar-okkal
             valaszokLista.innerHTML = '';
 
             if (data.answers.length === 0) {
@@ -198,7 +185,6 @@ function betoltEredmenyek(qid) {
         });
 }
 
-// Segédfüggvények a színek világosításához és sötétítéséhez
 function lightenColor(color, percent) {
     const num = parseInt(color.replace("#",""), 16);
     const amt = Math.round(2.55 * percent);
