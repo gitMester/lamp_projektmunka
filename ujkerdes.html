@@ -3,70 +3,355 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Új kérdés hozzáadása</title>
-  <link rel="stylesheet" href="style/global-styles.css">
+  <title>Királyság — Új kérdés</title>
   <link rel="stylesheet" href="style/ujkerdes.css">
 </head>
 <body>
-  <header>
+
+<!-- ════════════════════════════════════════════════════
+     INTRO — Konyha folyosó, kamera zoom az ajtóra
+═════════════════════════════════════════════════════ -->
+<div id="intro">
+
+  <!-- Stone corridor -->
+  <div class="corridor-bg"></div>
+  <div class="corridor-light"></div>
+
+  <!-- Camera zooms to kitchen door -->
+  <div id="camera-rig">
+    <div id="scene">
+
+      <div id="kitchen-wrap">
+        <svg viewBox="0 0 860 396" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5a4428"/>
+              <stop offset="100%" stop-color="#3a2c18"/>
+            </linearGradient>
+            <linearGradient id="wallShadR" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,0.28)"/>
+            </linearGradient>
+            <linearGradient id="roofG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a2c18"/>
+              <stop offset="100%" stop-color="#1e1808"/>
+            </linearGradient>
+            <linearGradient id="darkIn" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0c0804"/>
+              <stop offset="100%" stop-color="#080604"/>
+            </linearGradient>
+            <radialGradient id="winGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffd060" stop-opacity="0.85"/>
+              <stop offset="55%" stop-color="#e08020" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="chimneyG" cx="50%" cy="100%" r="65%">
+              <stop offset="0%" stop-color="#ff8020" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Ground -->
+          <rect x="0" y="340" width="860" height="56" fill="#2a1c0c"/>
+          <rect x="0" y="338" width="860" height="6" fill="#3a2810" opacity="0.7"/>
+          <!-- Cobblestones -->
+          <ellipse cx="430" cy="354" rx="100" ry="7" fill="#4a3418" opacity="0.5"/>
+          <ellipse cx="400" cy="366" rx="26" ry="5" fill="#5a3c18" opacity="0.5"/>
+          <ellipse cx="438" cy="372" rx="24" ry="4" fill="#5a3c18" opacity="0.5"/>
+          <ellipse cx="472" cy="364" rx="22" ry="5" fill="#5a3c18" opacity="0.5"/>
+
+          <!-- ══ LEFT WING ══ -->
+          <rect x="60" y="180" width="200" height="160" fill="url(#wallG)"/>
+          <rect x="220" y="180" width="40" height="160" fill="url(#wallShadR)"/>
+          <!-- Left roof -->
+          <polygon points="50,180 270,148 270,180" fill="url(#roofG)"/>
+          <!-- Left windows (warm glow) -->
+          <rect x="90" y="210" width="52" height="68" rx="2" fill="url(#darkIn)"/>
+          <rect x="88" y="208" width="56" height="72" rx="2" fill="url(#winGlow)" opacity="0.75"/>
+          <line x1="114" y1="208" x2="114" y2="280" stroke="#3a2008" stroke-width="3.5"/>
+          <line x1="88" y1="244" x2="144" y2="244" stroke="#3a2008" stroke-width="3.5"/>
+          <!-- Left herbs/onions hanging -->
+          <line x1="160" y1="188" x2="160" y2="210" stroke="#5a3010" stroke-width="2" opacity="0.8"/>
+          <ellipse cx="160" cy="214" rx="8" ry="5" fill="#8a6020" opacity="0.8"/>
+          <line x1="180" y1="190" x2="180" y2="215" stroke="#5a3010" stroke-width="2" opacity="0.8"/>
+          <ellipse cx="180" cy="219" rx="6" ry="4" fill="#506020" opacity="0.7"/>
+          <line x1="198" y1="188" x2="198" y2="212" stroke="#5a3010" stroke-width="2" opacity="0.8"/>
+          <ellipse cx="198" cy="216" rx="7" ry="4" fill="#8a6020" opacity="0.8"/>
+
+          <!-- ══ RIGHT WING ══ -->
+          <rect x="600" y="195" width="200" height="145" fill="url(#wallG)"/>
+          <rect x="600" y="195" width="44" height="145" fill="rgba(255,255,255,.04)"/>
+          <rect x="720" y="195" width="80" height="145" fill="url(#wallShadR)"/>
+          <polygon points="590,195 810,162 810,195" fill="url(#roofG)"/>
+          <!-- Right window -->
+          <rect x="638" y="224" width="48" height="62" rx="2" fill="url(#darkIn)"/>
+          <rect x="636" y="222" width="52" height="66" rx="2" fill="url(#winGlow)" opacity="0.65"/>
+          <line x1="662" y1="222" x2="662" y2="288" stroke="#3a2008" stroke-width="3.5"/>
+          <line x1="636" y1="255" x2="688" y2="255" stroke="#3a2008" stroke-width="3.5"/>
+          <!-- Right tools & barrels -->
+          <rect x="714" y="290" width="38" height="46" rx="4" fill="#4a2c10"/>
+          <line x1="714" y1="305" x2="752" y2="305" stroke="#3a1e08" stroke-width="2.5"/>
+          <line x1="714" y1="318" x2="752" y2="318" stroke="#3a1e08" stroke-width="2.5"/>
+          <line x1="714" y1="330" x2="752" y2="330" stroke="#3a1e08" stroke-width="2.5"/>
+          <ellipse cx="733" cy="290" rx="19" ry="5" fill="#5a3818"/>
+
+          <!-- ══ MAIN BUILDING ══ -->
+          <rect x="240" y="90" width="380" height="250" fill="url(#wallG)"/>
+          <rect x="530" y="90" width="90" height="250" fill="url(#wallShadR)"/>
+          <rect x="240" y="90" width="55" height="250" fill="rgba(255,200,100,.05)"/>
+          <!-- Stone lines -->
+          <line x1="240" y1="130" x2="620" y2="130" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+          <line x1="240" y1="170" x2="620" y2="170" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+          <line x1="240" y1="210" x2="620" y2="210" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+          <line x1="240" y1="250" x2="620" y2="250" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+          <line x1="240" y1="290" x2="620" y2="290" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+
+          <!-- ══ MAIN ROOF ══ -->
+          <rect x="228" y="62" width="412" height="36" fill="#2e2012"/>
+          <polygon points="430,8 220,88 640,88" fill="url(#roofG)"/>
+          <polygon points="430,8 480,42 640,88" fill="rgba(0,0,0,.22)"/>
+          <line x1="220" y1="88" x2="640" y2="88" stroke="#4a3018" stroke-width="3"/>
+
+          <!-- ══ CHIMNEYS ══ -->
+          <!-- Left chimney -->
+          <rect x="310" y="-5" width="44" height="70" fill="#2e2418"/>
+          <rect x="305" y="60" width="54" height="10" fill="#3a2c18"/>
+          <ellipse cx="332" cy="60" rx="25" ry="8" fill="url(#chimneyG)" opacity="0.8"/>
+          <!-- Right chimney -->
+          <rect x="510" y="5" width="40" height="62" fill="#2e2418"/>
+          <rect x="505" y="62" width="50" height="8" fill="#3a2c18"/>
+          <ellipse cx="530" cy="62" rx="22" ry="7" fill="url(#chimneyG)" opacity="0.7"/>
+
+          <!-- ══ SIDE WINDOWS ══ -->
+          <rect x="262" y="134" width="54" height="70" rx="2" fill="url(#darkIn)"/>
+          <rect x="260" y="132" width="58" height="74" rx="2" fill="url(#winGlow)" opacity="0.8"/>
+          <line x1="289" y1="132" x2="289" y2="206" stroke="#3a2008" stroke-width="3.5"/>
+          <line x1="260" y1="169" x2="318" y2="169" stroke="#3a2008" stroke-width="3.5"/>
+          <rect x="548" y="134" width="54" height="70" rx="2" fill="url(#darkIn)"/>
+          <rect x="546" y="132" width="58" height="74" rx="2" fill="url(#winGlow)" opacity="0.68"/>
+          <line x1="575" y1="132" x2="575" y2="206" stroke="#3a2008" stroke-width="3.5"/>
+          <line x1="546" y1="169" x2="604" y2="169" stroke="#3a2008" stroke-width="3.5"/>
+
+          <!-- ══ MAIN DOOR FRAME ══ -->
+          <rect x="378" y="102" width="14" height="238" fill="#2e2416"/>
+          <rect x="478" y="102" width="14" height="238" fill="#241e12"/>
+          <!-- Door top arch -->
+          <path d="M378,106 Q430,66 492,106" fill="none" stroke="#3a2c18" stroke-width="10"/>
+          <path d="M382,108 Q430,70 488,108" fill="none" stroke="#2e2414" stroke-width="6"/>
+          <!-- Arch keystone -->
+          <polygon points="420,69 430,61 440,69 436,80 424,80" fill="#4a3c20"/>
+          <!-- Door opening + warm inside -->
+          <path d="M392,112 Q430,78 468,112 L468,340 L392,340 Z" fill="url(#darkIn)"/>
+          <path d="M392,112 Q430,78 468,112 L468,340 L392,340 Z" fill="url(#chimneyG)" opacity="0.45"/>
+
+          <!-- ══ SIGN ══ -->
+          <rect x="382" y="50" width="98" height="20" rx="2" fill="#3a2010"/>
+          <rect x="384" y="52" width="94" height="16" rx="1" fill="#5a3018"/>
+          <text x="430" y="64" font-family="serif" font-size="8" fill="#d4900a" text-anchor="middle" letter-spacing="1">KIRÁLYI KONYHA</text>
+          <line x1="390" y1="50" x2="386" y2="40" stroke="#5a3010" stroke-width="1.5"/>
+          <line x1="470" y1="50" x2="474" y2="40" stroke="#5a3010" stroke-width="1.5"/>
+
+          <!-- ══ FOOD PROPS outside ══ -->
+          <!-- Cauldron left -->
+          <ellipse cx="340" cy="352" rx="30" ry="10" fill="#1e1408" opacity="0.6"/>
+          <path d="M318,320 Q320,355 362,355 Q404,355 342,320 Z" fill="#2e2010"/>
+          <ellipse cx="340" cy="320" rx="24" ry="7" fill="#3a2814"/>
+          <!-- Steam from cauldron -->
+          <ellipse cx="333" cy="312" rx="4" ry="7" fill="rgba(200,180,160,.3)" opacity="0.6"/>
+          <ellipse cx="348" cy="308" rx="3" ry="6" fill="rgba(200,180,160,.3)" opacity="0.5"/>
+          <!-- Loaves on right -->
+          <ellipse cx="520" cy="355" rx="22" ry="7" fill="#6a3c10" opacity="0.8"/>
+          <ellipse cx="540" cy="352" rx="20" ry="7" fill="#8a5018" opacity="0.9"/>
+          <ellipse cx="558" cy="356" rx="18" ry="6" fill="#7a4414" opacity="0.8"/>
+          <!-- Crate -->
+          <rect x="120" y="320" width="48" height="32" rx="2" fill="#4a2c10"/>
+          <line x1="120" y1="336" x2="168" y2="336" stroke="#3a1e08" stroke-width="2"/>
+          <line x1="144" y1="320" x2="144" y2="352" stroke="#3a1e08" stroke-width="2"/>
+        </svg>
+
+        <!-- CSS kitchen door -->
+        <div class="kitchen-door" id="kitchen-door"></div>
+        <div class="door-glow" id="door-glow"></div>
+
+        <!-- Smoke puffs from chimneys -->
+        <div id="smoke-left"  style="position:absolute;top:2%;left:36%;width:6%;height:18%;pointer-events:none;"></div>
+        <div id="smoke-right" style="position:absolute;top:5%;left:58%;width:5%;height:14%;pointer-events:none;"></div>
+      </div><!-- /kitchen-wrap -->
+
+    </div><!-- /scene -->
+  </div><!-- /camera-rig -->
+
+  <!-- Caption -->
+  <div class="intro-caption">
+    <h2>🍖 Királyi Konyha 🍖</h2>
+    <p>A lakoma előkészületeinek helyszíne…</p>
+  </div>
+
+</div><!-- /intro -->
+
+
+<!-- ════════════════════════════════════════════════════
+     KITCHEN ROOM — belső
+═════════════════════════════════════════════════════ -->
+<div id="kitchen-room">
+
+  <!-- Wall banners -->
+  <div class="wall-banners left">
+    <div class="wall-banner" style="--bt:10%"></div>
+    <div class="wall-banner" style="--bt:45%"></div>
+    <div class="wall-banner" style="--bt:76%"></div>
+  </div>
+  <div class="wall-banners right">
+    <div class="wall-banner" style="--bt:10%"></div>
+    <div class="wall-banner" style="--bt:45%"></div>
+    <div class="wall-banner" style="--bt:76%"></div>
+  </div>
+
+  <!-- Hanging food decor -->
+  <div class="hanging-food left"  style="--hft:7%;  --hfl:88px; --hfs:22px; --hfz:24px; --hfd:0.2s">
+    <span>🧅</span>
+  </div>
+  <div class="hanging-food left"  style="--hft:12%; --hfl:68px; --hfs:4.5s; --hfz:20px; --hfd:1.1s">
+    <span>🌿</span>
+  </div>
+  <div class="hanging-food left"  style="--hft:18%; --hfl:92px; --hfs:5.5s; --hfz:22px; --hfd:0.6s">
+    <span>🧄</span>
+  </div>
+  <div class="hanging-food right" style="--hft:7%;  --hfl:88px; --hfs:5s;   --hfz:24px; --hfd:0.4s">
+    <span>🍗</span>
+  </div>
+  <div class="hanging-food right" style="--hft:13%; --hfl:70px; --hfs:6s;   --hfz:22px; --hfd:0.9s">
+    <span>🥩</span>
+  </div>
+  <div class="hanging-food right" style="--hft:19%; --hfl:90px; --hfs:4.8s; --hfz:20px; --hfd:1.3s">
+    <span>🧅</span>
+  </div>
+
+  <!-- Candle sconces -->
+  <div class="candle-sconce left" style="--ct:18%">
+    <div class="candle-flame"><div class="candle-glow"></div></div>
+    <div class="candle-body"></div>
+  </div>
+  <div class="candle-sconce right" style="--ct:18%">
+    <div class="candle-flame"><div class="candle-glow"></div></div>
+    <div class="candle-body"></div>
+  </div>
+  <div class="candle-sconce left" style="--ct:52%">
+    <div class="candle-flame"><div class="candle-glow"></div></div>
+    <div class="candle-body"></div>
+  </div>
+  <div class="candle-sconce right" style="--ct:52%">
+    <div class="candle-flame"><div class="candle-glow"></div></div>
+    <div class="candle-body"></div>
+  </div>
+
+  <!-- Floating food particles -->
+  <div id="food-particles"></div>
+
+  <!-- Stone arch top -->
+  <div class="room-arch">
+    <svg viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="archKG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3a2c18"/>
+          <stop offset="100%" stop-color="#241e0c"/>
+        </linearGradient>
+      </defs>
+      <path d="
+        M0,0 L0,80 Q60,18 120,80 L120,0 Z
+        M120,0 L120,80 Q180,18 240,80 L240,0 Z
+        M240,0 L240,80 Q300,18 360,80 L360,0 Z
+        M360,0 L360,80 Q420,18 480,80 L480,0 Z
+        M480,0 L480,80 Q540,18 600,80 L600,0 Z
+        M600,0 L600,80 Q660,18 720,80 L720,0 Z
+        M720,0 L720,80 Q780,18 840,80 L840,0 Z
+        M840,0 L840,80 Q900,18 960,80 L960,0 Z
+        M960,0 L960,80 Q1020,18 1080,80 L1080,0 Z
+        M1080,0 L1080,80 Q1140,18 1200,80 L1200,0 Z
+        M1200,0 L1200,80 Q1260,18 1320,80 L1320,0 Z
+        M1320,0 L1320,80 Q1380,18 1440,80 L1440,0 Z
+      " fill="url(#archKG)" stroke="rgba(212,160,16,.14)" stroke-width="1"/>
+      <circle cx="120"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="240"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="360"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="480"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="600"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="720"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="840"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="960"  cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="1080" cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="1200" cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+      <circle cx="1320" cy="80" r="4" fill="rgba(212,160,16,.22)"/>
+    </svg>
+  </div>
+
+  <!-- Header -->
+  <header class="room-header">
     <div>
-      <h1>(Megették) A Termeszek</h1>
+      <h1>⚜ Királyság Konyhája</h1>
       <nav>
-        <a href="fooldal.html" class="nav-link">Főoldal</a>
-        <a href="szavazas.html" class="nav-link">Szavazás</a>
+        <a href="fooldal.html" class="nav-link">← Főoldal</a>
+        <a href="kerdeskezeles.html" class="nav-link">⚒ Kérdéskezelés</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <div class="user-info">
-      <p>Bejelentkezve: <strong id="felhasznalonevMegjelenites"></strong> 
-        <a href="index.html" class="logout-link">Kijelentkezés</a>
-      </p>
+  <main class="room-main">
+
+    <!-- User bar -->
+    <div class="user-bar">
+      Bejelentkezve:&nbsp;
+      <strong id="felhasznalonevMegjelenites">…</strong>
+      &emsp;
+      <a href="index.html" class="logout-link">Kijelentkezés</a>
     </div>
 
-    <div class="form-container new-question-container">
+    <!-- Section heading -->
+    <div class="section-head">
       <h2>Új kérdés hozzáadása</h2>
+      <p>Készíts elő egy új szavazást a lakodalom népének</p>
+    </div>
+
+    <!-- Form (parchment card) -->
+    <div class="form-container">
+      <span class="orn tl">❧</span>
+      <span class="orn tr">❧</span>
+      <span class="orn bl">❧</span>
+      <span class="orn br">❧</span>
 
       <form id="ujKerdesForm">
+
         <div class="form-group">
-          <label for="kerdesText">Kérdés szövege</label>
-          <textarea 
-            id="kerdesText" 
-            name="kerdesText" 
-            placeholder="Írd be a kérdést..."
+          <label for="kerdesText">A kérdés szövege</label>
+          <textarea
+            id="kerdesText"
+            name="kerdesText"
+            placeholder="Írd be a kérdést…"
             required
           ></textarea>
           <div class="hiba" id="kerdesHiba"></div>
         </div>
 
         <div class="answers-section">
-          <label class="section-label">Válaszlehetőségek <span class="required">(minimum 2)</span></label>
-          
+          <label class="section-label">
+            Válaszlehetőségek
+            <span class="required">(legalább 2 szükséges)</span>
+          </label>
+
           <div id="valaszokLista" class="answers-container">
             <div class="answer-item">
               <span class="answer-number">1.</span>
-              <input 
-                type="text" 
-                placeholder="Első válasz" 
-                data-valasz="0"
-                required
-              >
-              <button type="button" onclick="torolValasz(this)" class="btn-delete" style="visibility: hidden;">×</button>
+              <input type="text" placeholder="Első válasz" data-valasz="0" required>
+              <button type="button" onclick="torolValasz(this)" class="btn-delete" style="visibility:hidden;">×</button>
             </div>
             <div class="answer-item">
               <span class="answer-number">2.</span>
-              <input 
-                type="text" 
-                placeholder="Második válasz" 
-                data-valasz="1"
-                required
-              >
-              <button type="button" onclick="torolValasz(this)" class="btn-delete" style="visibility: hidden;">×</button>
+              <input type="text" placeholder="Második válasz" data-valasz="1" required>
+              <button type="button" onclick="torolValasz(this)" class="btn-delete" style="visibility:hidden;">×</button>
             </div>
           </div>
 
-          <button type="button" class="btn-secondary btn-add-answer" onclick="ujValasz()">
+          <button type="button" class="btn-add-answer" onclick="ujValasz()">
             + Újabb válasz hozzáadása
           </button>
 
@@ -74,19 +359,23 @@
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn-submit">Kérdés mentése</button>
+          <button type="submit" class="btn-submit">⚜ Kérdés mentése</button>
           <button type="button" class="btn-secondary" onclick="location.href='fooldal.html'">Mégse</button>
         </div>
+
       </form>
 
       <div id="uzenet" class="message"></div>
-    </div>
+    </div><!-- /form-container -->
+
   </main>
 
   <footer>
-    <h2>Készítette: Kányai Márk, Léber Bence Bendegúz, Sveiczer Dávid</h2>
+    <h2>Készítette: Kányai Márk &ensp;·&ensp; Léber Bence Bendegúz &ensp;·&ensp; Sveiczer Dávid</h2>
   </footer>
 
-  <script src="ujkerdes.js"></script>
+</div><!-- /kitchen-room -->
+
+<script src="ujkerdes.js"></script>
 </body>
 </html>
