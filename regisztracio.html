@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regisztráció — Királyság</title>
-  <link rel="stylesheet" href="regisztracio.css">
+  <link rel="stylesheet" href="style/regisztracio.css">
 </head>
 <body>
 
@@ -254,7 +254,7 @@ form.addEventListener('submit', async (e) => {
   showBubble(guardLines.sending, 0);
 
   try {
-    const res = await fetch('regisztracio.php', {
+    const res = await fetch('./api/regisztracio.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
