@@ -3,52 +3,283 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Regisztráció</title>
-  <link rel="stylesheet" href="style/global-styles.css">
-  <link rel="stylesheet" href="style/regisztracio.css">
+  <title>Regisztráció — Királyság</title>
+  <link rel="stylesheet" href="regisztracio.css">
 </head>
 <body>
-  <div class="register-wrapper">
-    <div class="glass-card register-card">
-      <div class="register-header">
-        <h1>Regisztráció</h1>
-        <p>Hozz létre egy új fiókot az alkalmazás használatához</p>
-      </div>
 
-      <form id="regForm" class="register-form">
-        <div class="form-group">
-          <label for="username">Felhasználónév</label>
-          <input 
-            type="text" 
-            id="username" 
-            placeholder="Válassz egy felhasználónevet"
-            required
-          >
-        </div>
+<!-- ═══════════════════════
+     CSILLAGOS ÉG
+════════════════════════ -->
+<div class="stars" id="stars"></div>
 
-        <div class="form-group">
-          <label for="password">Jelszó</label>
-          <input 
-            type="password" 
-            id="password" 
-            placeholder="Hozz létre egy erős jelszót"
-            required
-          >
-        </div>
+<!-- ═══════════════════════
+     TŰZFÉNY ALUL
+════════════════════════ -->
+<div class="ground-fire-glow"></div>
 
-        <button type="submit" class="btn-register">Regisztráció</button>
-      </form>
+<!-- ═══════════════════════
+     VÁRFALAK + TORNYOK
+════════════════════════ -->
+<div class="castle-walls">
 
-      <div id="uzenet" class="message"></div>
+  <!-- BAL FALTÖMB -->
+  <div class="wall-left">
+    <!-- Ablakrések -->
+    <div class="wall-window" style="left:28%;top:22%;"></div>
+    <div class="wall-window" style="left:58%;top:38%;"></div>
 
-      <div class="register-footer">
-        <p>Már van fiókod? 
-          <a href="bejelentkezes.html">Jelentkezz be</a>
-        </p>
-      </div>
+    <!-- Fáklya -->
+    <div class="wall-torch" style="position:absolute;left:72%;top:52%;">
+      <div class="wall-torch-glow"></div>
+      <div class="wall-torch-flame"></div>
+      <div class="wall-torch-pole"></div>
+    </div>
+    <div class="wall-torch" style="position:absolute;left:32%;top:62%;">
+      <div class="wall-torch-glow"></div>
+      <div class="wall-torch-flame"></div>
+      <div class="wall-torch-pole"></div>
     </div>
   </div>
 
-  <script src="regisztracio.js"></script>
+  <!-- JOBB FALTÖMB -->
+  <div class="wall-right">
+    <div class="wall-window" style="right:28%;top:22%;"></div>
+    <div class="wall-window" style="right:60%;top:38%;"></div>
+
+    <div class="wall-torch" style="position:absolute;right:68%;top:52%;">
+      <div class="wall-torch-glow"></div>
+      <div class="wall-torch-flame"></div>
+      <div class="wall-torch-pole"></div>
+    </div>
+    <div class="wall-torch" style="position:absolute;right:32%;top:62%;">
+      <div class="wall-torch-glow"></div>
+      <div class="wall-torch-flame"></div>
+      <div class="wall-torch-pole"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════
+     FŐ JELENET
+════════════════════════ -->
+<main class="reg-scene">
+
+  <!-- Őr megszólítás fejléce -->
+  <div class="guard-speech">
+    <div class="guard-title">⚔ &nbsp; A Királyság Kapuja &nbsp; ⚔</div>
+    <p class="guard-quote">
+      „Állj! Ki vagy, vándor, és mi dolgod van<br>
+      e vár falain belül?"
+    </p>
+    <div class="guard-divider">
+      <span class="guard-divider-icon">⚜</span>
+    </div>
+  </div>
+
+  <!-- PERGAMEN KÁRTYA -->
+  <div class="register-wrapper">
+    <div class="register-card glass-card">
+
+      <!-- Pergamen tekercs teteje -->
+      <div class="card-scroll-top">
+        <span class="scroll-ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+      </div>
+
+      <!-- Sarkokban díszek -->
+      <span class="card-corner tl">❧</span>
+      <span class="card-corner tr">❧</span>
+      <span class="card-corner bl">❧</span>
+      <span class="card-corner br">❧</span>
+
+      <!-- Őr figura — lebegő badge -->
+      <div class="guard-badge" id="guardBadge">
+        <div class="guard-speech-bubble" id="guardBubble">
+          Töltsd ki az okiratot!
+        </div>
+        <div class="guard-icon">🛡️</div>
+      </div>
+
+      <!-- Kártya belső tartalma -->
+      <div class="card-inner">
+
+        <div class="register-header">
+          <h1>Bemutatkozás az Őrnek</h1>
+          <p>
+            Add meg neved és titkos jelszavadat,<br>
+            hogy bejegyezhessenek a vár könyveibe.
+          </p>
+        </div>
+
+        <form id="regForm" class="register-form">
+
+          <div class="form-group">
+            <label for="username">Neved a Királyságban</label>
+            <div class="input-wrap">
+              <span class="input-icon">⚜</span>
+              <input
+                type="text"
+                id="username"
+                placeholder="Válassz nevet, amelyen ismerjenek…"
+                required
+                autocomplete="username"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Titkos jelszó</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔑</span>
+              <input
+                type="password"
+                id="password"
+                placeholder="Egy erős titkot, amelyet csak te ismersz…"
+                required
+                autocomplete="new-password"
+              >
+            </div>
+          </div>
+
+          <button type="submit" class="btn-register">
+            Bejegyzés kérése
+          </button>
+
+        </form>
+
+        <div id="uzenet" class="message" role="alert" aria-live="polite"></div>
+
+        <div class="register-footer">
+          <p>
+            Már ismernek a kapunál?
+            <a href="bejelentkezes.html">Lépj be a várba</a>
+          </p>
+        </div>
+
+      </div><!-- /.card-inner -->
+
+      <!-- Pergamen tekercs alja -->
+      <div class="card-scroll-bottom">
+        <span class="scroll-ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+      </div>
+
+    </div><!-- /.register-card -->
+  </div><!-- /.register-wrapper -->
+
+</main>
+
+<!-- Talaj csík -->
+<div class="ground-strip"></div>
+
+<script>
+/* ═══════════════════════════
+   CSILLAGOK GENERÁLÁSA
+═══════════════════════════ */
+(function() {
+  const container = document.getElementById('stars');
+  const count = 90;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2.2 + 0.4;
+    const x = Math.random() * 100;
+    const y = Math.random() * 65;
+    const dur = (Math.random() * 3 + 2).toFixed(1) + 's';
+    const del = (Math.random() * 4).toFixed(1) + 's';
+    const a1 = (Math.random() * 0.3 + 0.1).toFixed(2);
+    const a2 = (Math.random() * 0.5 + 0.5).toFixed(2);
+    Object.assign(star.style, {
+      width: size + 'px', height: size + 'px',
+      left: x + '%', top: y + '%',
+      '--sd': dur, '--sdo': del,
+      '--sa': a1, '--sb': a2,
+    });
+    container.appendChild(star);
+  }
+})();
+
+/* ═══════════════════════════
+   FORM LOGIKA + ŐR REAKCIÓ
+═══════════════════════════ */
+const form    = document.getElementById('regForm');
+const uzenet  = document.getElementById('uzenet');
+const bubble  = document.getElementById('guardBubble');
+const usrInput = document.getElementById('username');
+const pwdInput = document.getElementById('password');
+
+const guardLines = {
+  idle:    'Töltsd ki az okiratot!',
+  typing:  'Hmm… figyelem…',
+  name:    'Nem rossz név, vándor.',
+  password:'Jó, jó — legyen erős a jelszó!',
+  sending: '…Átadom a főírnoknak…',
+  ok:      '✦ Bejegyezve! Üdv a várban!',
+  error:   '✗ Valami gyanús itt…',
+};
+
+function showBubble(msg, duration = 3000) {
+  bubble.textContent = msg;
+  bubble.style.opacity = '1';
+  bubble.style.transform = 'translateY(0)';
+  if (duration > 0) {
+    clearTimeout(showBubble._t);
+    showBubble._t = setTimeout(() => {
+      bubble.style.opacity = '0';
+      bubble.style.transform = 'translateY(6px)';
+    }, duration);
+  }
+}
+
+usrInput.addEventListener('focus', () => showBubble(guardLines.typing, 0));
+usrInput.addEventListener('blur',  () => {
+  if (usrInput.value.trim()) showBubble(guardLines.name);
+  else bubble.style.opacity = '0';
+});
+pwdInput.addEventListener('focus', () => showBubble(guardLines.password, 0));
+pwdInput.addEventListener('blur',  () => { bubble.style.opacity = '0'; });
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = usrInput.value.trim();
+  const password = pwdInput.value;
+
+  if (!username || !password) {
+    uzenet.textContent = 'Minden mezőt ki kell töltened, vándor.';
+    uzenet.className = 'message';
+    showBubble(guardLines.error);
+    return;
+  }
+
+  uzenet.textContent = '';
+  showBubble(guardLines.sending, 0);
+
+  try {
+    const res = await fetch('regisztracio.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      uzenet.textContent = '✦ Sikeresen bejegyeztek a vár könyveibe!';
+      uzenet.className = 'message success';
+      showBubble(guardLines.ok, 6000);
+      form.reset();
+      setTimeout(() => { window.location.href = 'bejelentkezes.html'; }, 2200);
+    } else {
+      uzenet.textContent = data.message || 'Valami félrement, vándor.';
+      uzenet.className = 'message';
+      showBubble(guardLines.error);
+    }
+  } catch {
+    uzenet.textContent = 'A vár hírvivői nem érhetők el. Próbálkozz újra.';
+    uzenet.className = 'message';
+    showBubble(guardLines.error);
+  }
+});
+</script>
+
 </body>
 </html>
