@@ -1,107 +1,699 @@
-/* ============================================
-   REGISTER PAGE STYLES
-   ============================================ */
-body{
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background-image: url("https://images.pexels.com/photos/17284844/pexels-photo-17284844.jpeg");
-  background: linear-gradient(rgba(248, 249, 251, 0.95), rgba(248, 249, 251, 0.95));
-  background-repeat: no-repeat;
-  background-size: cover;
-  background: fixed;
-  color: var(--text-primary);
-  line-height: 1.6;
+/* ═══════════════════════════════════════════════════════════
+   KIRÁLYSÁG — regisztracio.css
+   "A vár kapujánál" — regisztrációs jelenet
+═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sky-dusk-top:   #1a1228;
+  --sky-dusk-mid:   #2e1e40;
+  --sky-dusk-glow:  #7a2e10;
+  --sky-horizon:    #c45a18;
+  --sky-warm:       #e8803a;
+
+  --stone-deep:     #1c1810;
+  --stone-dark:     #2e2820;
+  --stone-mid:      #3e3628;
+  --stone-lite:     #564e3c;
+  --stone-pale:     #7a7060;
+  --stone-mortar:   #161210;
+
+  --gold:           #d4900a;
+  --gold-lite:      #f0b830;
+  --gold-pale:      #fae090;
+  --gold-dim:       #7a4e08;
+
+  --parch:          #fef8e0;
+  --parch-warm:     #f8ecc0;
+  --parch-dark:     #e8d898;
+  --ink:            #2c1a08;
+  --ink-soft:       #5c3820;
+  --ink-faint:      #9a7050;
+
+  --fire-bright:    #fff8a0;
+  --fire-mid:       #f8a018;
+  --fire-deep:      #c03808;
+
+  --banner-red:     #8b1a1a;
+  --shadow:         rgba(0,0,0,0.7);
+
+  --font-title:     'Cinzel Decorative', serif;
+  --font-heading:   'Cinzel', serif;
+  --font-body:      'IM Fell English', serif;
+
+  --ease-expo:      cubic-bezier(0.16,1,0.3,1);
+  --ease-spring:    cubic-bezier(0.34,1.56,0.64,1);
+}
+
+html, body {
+  width: 100%; min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-body);
+  background: var(--stone-deep);
+}
+
+/* ═══════════════════════════════
+   HÁTTÉR — éjjeli égbolt + tűzfény
+═══════════════════════════════ */
+.reg-scene {
   min-height: 100vh;
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow-x: hidden;
-}
-.register-wrapper {
-  min-height: 100vh;
-  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  position: relative;
-  z-index: 1;
-  background: linear-gradient(rgba(248, 249, 251, 0.92), rgba(248, 249, 251, 0.92)), url('bg-image.jpg') center/cover fixed no-repeat;
+  padding: 40px 16px 60px;
+  overflow: hidden;
+}
+
+/* Éjszakai égbolt alkonyi fénnyel */
+.reg-scene::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -3;
+  background: linear-gradient(to bottom,
+    var(--sky-dusk-top)   0%,
+    var(--sky-dusk-mid)   30%,
+    var(--sky-dusk-glow)  58%,
+    var(--sky-horizon)    72%,
+    var(--sky-warm)       84%,
+    #b85a20               100%
+  );
+}
+
+/* Kőfal textúra overlay */
+.reg-scene::after {
+  content: '';
+  position: fixed; inset: 0; z-index: -2;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 29px,
+      var(--stone-mortar) 29px, var(--stone-mortar) 31px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0, transparent 49px,
+      var(--stone-mortar) 49px, var(--stone-mortar) 51px
+    );
+  opacity: 0.18;
+}
+
+/* Csillagok */
+.stars {
+  position: fixed;
+  inset: 0; z-index: -1;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: starTwinkle var(--sd, 3s) ease-in-out var(--sdo, 0s) infinite alternate;
+}
+@keyframes starTwinkle {
+  from { opacity: var(--sa, 0.4); transform: scale(1); }
+  to   { opacity: var(--sb, 0.9); transform: scale(1.4); }
+}
+
+/* ═══════════════════════════════
+   VÁRFAL — bal és jobb torony
+═══════════════════════════════ */
+.castle-walls {
+  position: fixed;
+  inset: 0; z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Bal torony */
+.wall-left,
+.wall-right {
+  position: absolute;
+  bottom: 0;
+  width: 28vw;
+  max-width: 320px;
+  background: linear-gradient(to right,
+    #0e0c08 0%, #1c1810 20%, #2a2418 60%, #1e1a10 100%
+  );
+  overflow: hidden;
+}
+.wall-left  { left: 0; height: 75vh; }
+.wall-right { right: 0; height: 75vh;
+  background: linear-gradient(to left, #0e0c08 0%, #1c1810 20%, #2a2418 60%, #1e1a10 100%);
+}
+
+/* Kőtégla minta a falakon */
+.wall-left::before, .wall-right::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 27px,
+      rgba(0,0,0,.45) 27px, rgba(0,0,0,.45) 30px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0, transparent 45px,
+      rgba(0,0,0,.3) 45px, rgba(0,0,0,.3) 48px
+    );
+  opacity: 0.6;
+}
+
+/* Pártázat (fogazott tetők) */
+.wall-left::after, .wall-right::after {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0; right: 0;
+  height: 60px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--stone-deep) 0px,   var(--stone-deep) 24px,
+    transparent       24px,  transparent       40px
+  );
+  border-top: 3px solid #0a0806;
+}
+
+/* Ablakrések a tornyokon */
+.wall-window {
+  position: absolute;
+  width: 14px; height: 36px;
+  background: radial-gradient(ellipse at 50% 20%, #f8c050 0%, #c05010 40%, #3a0a00 100%);
+  border-radius: 7px 7px 0 0;
+  box-shadow: 0 0 18px rgba(255,140,30,.6), 0 0 40px rgba(255,100,10,.25);
+  animation: windowGlow 2.2s ease-in-out infinite alternate;
+}
+@keyframes windowGlow {
+  from { box-shadow: 0 0 14px rgba(255,140,30,.5), 0 0 32px rgba(255,100,10,.2); }
+  to   { box-shadow: 0 0 24px rgba(255,160,50,.75), 0 0 55px rgba(255,120,20,.35); }
+}
+
+/* Fáklya tartók a falakon */
+.wall-torch {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.wall-torch-flame {
+  width: 14px; height: 22px;
+  background: radial-gradient(ellipse at 50% 80%, var(--fire-bright), var(--fire-mid), var(--fire-deep), transparent 86%);
+  border-radius: 50% 50% 30% 30%;
+  animation: torchFlame .15s ease-in-out infinite alternate;
+  filter: blur(.4px);
+  box-shadow: 0 0 18px rgba(255,140,20,.8), 0 0 45px rgba(255,100,10,.4);
+}
+@keyframes torchFlame {
+  from { transform: skewX(-5deg) scaleY(1.12); }
+  to   { transform: skewX(6deg)  scaleY(.86); }
+}
+.wall-torch-pole {
+  width: 6px; height: 44px;
+  background: linear-gradient(to bottom, #7a4418, #2c0e04);
+  border-radius: 2px;
+}
+.wall-torch-glow {
+  position: absolute;
+  top: -18px; left: -22px;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,150,30,.3) 0%, transparent 70%);
+  animation: glowPulse .35s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes glowPulse {
+  from { transform: scale(.85); opacity: .7; }
+  to   { transform: scale(1.15); opacity: 1; }
+}
+
+/* Tűzfény az aljáról */
+.ground-fire-glow {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 220px; z-index: 1;
+  background: linear-gradient(to top,
+    rgba(180, 70, 10, 0.35) 0%,
+    rgba(220, 100, 20, 0.18) 40%,
+    transparent 100%
+  );
+  pointer-events: none;
+  animation: groundGlow 3s ease-in-out infinite alternate;
+}
+@keyframes groundGlow {
+  from { opacity: .75; }
+  to   { opacity: 1; }
+}
+
+/* ═══════════════════════════════
+   ŐR MEGSZÓLÍTÁS — fejléc
+═══════════════════════════════ */
+.guard-speech {
+  position: relative; z-index: 10;
+  text-align: center;
+  margin-bottom: 28px;
+  animation: fadeDown .9s var(--ease-expo) .3s both;
+}
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.guard-title {
+  font-family: var(--font-title);
+  font-size: clamp(11px, 2vw, 17px);
+  color: var(--gold-lite);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(240,184,48,.5), 0 2px 6px rgba(0,0,0,.8);
+  margin-bottom: 10px;
+}
+
+.guard-quote {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(13px, 1.6vw, 16px);
+  color: rgba(230, 200, 140, 0.7);
+  letter-spacing: .04em;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0,0,0,.9);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.guard-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin: 14px auto 0;
+  max-width: 320px;
+}
+.guard-divider::before,
+.guard-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,144,10,.5), transparent);
+}
+.guard-divider-icon {
+  color: var(--gold);
+  font-size: 14px;
+  opacity: .7;
+  text-shadow: 0 0 10px rgba(212,144,10,.5);
+}
+
+/* ═══════════════════════════════
+   PERGAMEN KÁRTYA — regisztrációs form
+═══════════════════════════════ */
+.register-wrapper {
+  position: relative; z-index: 10;
+  width: 100%;
+  max-width: 460px;
+  animation: pergamentReveal 1.1s var(--ease-expo) .7s both;
+}
+@keyframes pergamentReveal {
+  from { opacity:0; transform:translateY(30px) scale(.96); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
 }
 
 .register-card {
-  width: 100%;
-  max-width: 400px;
-  padding: 3rem 2rem;
+  position: relative;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E"),
+    linear-gradient(160deg,
+      #fefae8 0%,
+      #f8ecbe 30%,
+      #f2e0a0 60%,
+      #eedea8 80%,
+      #f4e8b8 100%
+    );
+  border: none;
+  border-radius: 2px;
+  padding: 0;
+  box-shadow:
+    0 0 0 1px rgba(160,100,0,.35),
+    0 0 0 4px rgba(90,55,0,.18),
+    0 0 0 5px rgba(160,100,0,.22),
+    0 12px 60px rgba(0,0,0,.75),
+    0 0 80px rgba(200,100,20,.12),
+    inset 0 0 30px rgba(140,80,0,.08);
+  overflow: visible;
 }
 
+/* Pergamen széldísz — felső */
+.card-scroll-top,
+.card-scroll-bottom {
+  position: absolute;
+  left: -8px; right: -8px;
+  height: 22px;
+  background: linear-gradient(to bottom, #c89040, #9a6818, #b87828);
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.5);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+}
+.card-scroll-top  { top: -11px; }
+.card-scroll-bottom { bottom: -11px; }
+.card-scroll-top::before, .card-scroll-top::after,
+.card-scroll-bottom::before, .card-scroll-bottom::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 22px;
+  background: radial-gradient(ellipse at center, #a07020 40%, #7a5010 100%);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.3);
+}
+.card-scroll-top::before, .card-scroll-bottom::before { left: -6px; }
+.card-scroll-top::after, .card-scroll-bottom::after   { right: -6px; }
+
+.scroll-ornament {
+  font-size: 11px;
+  color: rgba(255,230,140,.7);
+  letter-spacing: .3em;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  user-select: none;
+}
+
+/* Kártya belső tartalma */
+.card-inner {
+  padding: 34px 38px 30px;
+}
+
+/* Belső keret vonal */
+.card-inner::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(160,100,0,.22);
+  pointer-events: none;
+}
+
+/* Sarkokban díszítés */
+.card-corner {
+  position: absolute;
+  font-size: 18px;
+  color: rgba(160, 90, 0, 0.35);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+}
+.card-corner.tl { top: 18px; left: 20px; }
+.card-corner.tr { top: 18px; right: 20px; transform: scaleX(-1); }
+.card-corner.bl { bottom: 18px; left: 20px; transform: scaleY(-1); }
+.card-corner.br { bottom: 18px; right: 20px; transform: scale(-1); }
+
+/* ── FEJLÉC ── */
 .register-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(160,100,0,.2);
+  position: relative;
+}
+
+.register-header::after {
+  content: '✦';
+  position: absolute;
+  bottom: -8px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--gold);
+  background: #f5e8b0;
+  padding: 0 8px;
+  text-shadow: 0 0 8px rgba(212,144,10,.4);
 }
 
 .register-header h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
+  font-family: var(--font-title);
+  font-size: clamp(15px, 2.8vw, 22px);
+  color: var(--ink);
+  letter-spacing: .12em;
+  text-shadow: 1px 1px 0 rgba(255,255,255,.6);
+  margin-bottom: 8px;
 }
 
 .register-header p {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-faint);
+  line-height: 1.5;
 }
 
+/* ── FORM MEZŐK ── */
 .register-form {
-  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.register-form .form-group {
-  margin-bottom: 1.5rem;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
-.btn-register {
+.form-group label {
+  font-family: var(--font-heading);
+  font-size: 9.5px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.form-group input {
   width: 100%;
-  padding: 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 1rem;
+  padding: 13px 16px;
+  background: rgba(255, 250, 225, 0.7);
+  border: 1px solid rgba(160,100,0,.38);
+  border-bottom: 2px solid rgba(140,80,0,.45);
+  border-radius: 1px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: all .22s ease;
+  box-shadow: inset 0 2px 6px rgba(80,40,0,.08), 0 1px 0 rgba(255,255,255,.5);
+}
+.form-group input::placeholder {
+  color: var(--ink-faint);
+  opacity: .65;
+}
+.form-group input:focus {
+  background: rgba(255, 253, 235, 0.95);
+  border-color: var(--gold);
+  border-bottom-color: var(--gold);
+  box-shadow:
+    inset 0 2px 6px rgba(80,40,0,.05),
+    0 0 0 3px rgba(212,144,10,.12),
+    0 1px 0 rgba(255,255,255,.5);
 }
 
+/* Jelmező ikon-prefix (opcionális) */
+.form-group .input-wrap {
+  position: relative;
+}
+.form-group .input-icon {
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+.form-group .input-wrap input {
+  padding-left: 38px;
+}
+
+/* ── GOMB ── */
+.btn-register {
+  margin-top: 6px;
+  width: 100%;
+  padding: 15px 20px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  font-family: var(--font-title);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--parch-warm);
+  text-shadow: 0 1px 4px rgba(0,0,0,.6);
+
+  background: linear-gradient(to bottom,
+    #e0a018 0%,
+    #b87808 18%,
+    #9a6400 50%,
+    #b07808 82%,
+    #d49816 100%
+  );
+  border: none;
+  border-top:    2px solid rgba(255,220,100,.45);
+  border-bottom: 3px solid rgba(60,30,0,.55);
+  border-left:   1px solid rgba(160,100,0,.5);
+  border-right:  1px solid rgba(160,100,0,.5);
+  border-radius: 1px;
+
+  box-shadow:
+    0 5px 0 #3c1e00,
+    0 7px 16px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,240,120,.35);
+
+  transition: transform .18s var(--ease-spring), box-shadow .18s ease, filter .18s;
+}
+
+/* Fény sweep animáció */
+.btn-register::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; bottom: 0;
+  width: 60%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,200,.2), transparent);
+  transform: skewX(-20deg);
+  transition: left .5s ease;
+}
+.btn-register:hover::before {
+  left: 160%;
+}
+
+.btn-register:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+  box-shadow:
+    0 8px 0 #3c1e00,
+    0 12px 28px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,240,120,.35);
+}
+.btn-register:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #3c1e00,
+    0 2px 8px rgba(0,0,0,.4),
+    inset 0 2px 4px rgba(0,0,0,.2);
+}
+
+/* ── ÜZENET ── */
+.message {
+  margin-top: 16px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  text-align: center;
+  min-height: 20px;
+  color: #8b2020;
+  text-shadow: 0 1px 2px rgba(255,255,255,.5);
+  transition: all .3s ease;
+}
+.message.success {
+  color: #2a5e1a;
+}
+
+/* ── LÁBLÉC LINK ── */
 .register-footer {
   text-align: center;
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border-color);
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(160,100,0,.18);
 }
-
 .register-footer p {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-faint);
 }
-
 .register-footer a {
-  color: var(--accent-color);
-  font-weight: 600;
-  transition: color 0.3s ease;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-style: normal;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(140,80,0,.3);
+  padding-bottom: 1px;
+  transition: all .2s;
 }
-
 .register-footer a:hover {
-  color: var(--accent-hover);
+  color: var(--gold-dim);
+  border-bottom-color: var(--gold-dim);
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+/* ── ŐR FIGURA (ASCII stílusú badge) ── */
+.guard-badge {
+  position: absolute;
+  top: -52px; right: -14px;
+  z-index: 20;
+  text-align: center;
+  pointer-events: none;
+  animation: guardBob 3s ease-in-out infinite alternate;
+}
+@keyframes guardBob {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-5px); }
+}
+.guard-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,.7));
+  line-height: 1;
+}
+.guard-speech-bubble {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  background: rgba(20, 14, 6, 0.92);
+  border: 1px solid rgba(212,144,10,.4);
+  border-radius: 6px 6px 6px 0;
+  padding: 7px 12px;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(230,200,140,.85);
+  box-shadow: 0 4px 16px rgba(0,0,0,.6);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all .3s ease;
+  pointer-events: none;
+}
 
-@media (max-width: 480px) {
-  .register-wrapper {
-    padding: 1rem;
-  }
+/* ═══════════════════════════════
+   ALAP — talaj csík
+═══════════════════════════════ */
+.ground-strip {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 8px;
+  z-index: 5;
+  background: linear-gradient(to right,
+    #0a0806, #1c1408, #0e1006, #0a0806
+  );
+  box-shadow: 0 -2px 20px rgba(0,0,0,.8);
+}
 
-  .register-card {
-    padding: 2rem 1.5rem;
-  }
+/* ═══════════════════════════════
+   RESZPONZÍV
+═══════════════════════════════ */
+@media (max-width: 520px) {
+  .card-inner { padding: 28px 22px 24px; }
+  .castle-walls { display: none; }
+  .register-wrapper { max-width: 100%; }
+  .guard-badge { display: none; }
+}
 
-  .register-header h1 {
-    font-size: 1.5rem;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }
