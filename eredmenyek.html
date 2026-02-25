@@ -10,125 +10,136 @@
 <body>
 
 <!-- ══════════════════════════════════════════
-     INTRO — Folyosó a kincstárba
+     INTRO — Kőfolyosó a kincstárba
 ══════════════════════════════════════════ -->
 <div id="intro-vault">
 
-  <!-- Torchlight flicker walls -->
   <div class="corridor-wall left-wall"></div>
   <div class="corridor-wall right-wall"></div>
   <div class="corridor-floor"></div>
   <div class="corridor-ceiling"></div>
 
-  <!-- Repeating arches receding into distance -->
   <div class="arch-tunnel">
-    <div class="arch a1"></div>
-    <div class="arch a2"></div>
-    <div class="arch a3"></div>
-    <div class="arch a4"></div>
-    <div class="arch a5"></div>
+    <div class="arch-tunnel-inner">
+      <div class="arch a1"></div>
+      <div class="arch a2"></div>
+      <div class="arch a3"></div>
+      <div class="arch a4"></div>
+      <div class="arch a5"></div>
+      <div class="arch a6"></div>
+    </div>
   </div>
 
-  <!-- Torches on walls -->
-  <div class="corridor-torch left" style="--tt:35%">
+  <div class="corridor-torch left" style="--tt:34%">
     <div class="ct-flame"><div class="ct-glow"></div></div>
+    <div class="ct-bracket"></div>
     <div class="ct-pole"></div>
   </div>
-  <div class="corridor-torch right" style="--tt:35%">
+  <div class="corridor-torch right" style="--tt:34%">
     <div class="ct-flame"><div class="ct-glow"></div></div>
+    <div class="ct-bracket"></div>
     <div class="ct-pole"></div>
   </div>
-  <div class="corridor-torch left" style="--tt:65%">
+  <div class="corridor-torch left" style="--tt:63%">
     <div class="ct-flame"><div class="ct-glow"></div></div>
+    <div class="ct-bracket"></div>
     <div class="ct-pole"></div>
   </div>
-  <div class="corridor-torch right" style="--tt:65%">
+  <div class="corridor-torch right" style="--tt:63%">
     <div class="ct-flame"><div class="ct-glow"></div></div>
+    <div class="ct-bracket"></div>
     <div class="ct-pole"></div>
   </div>
 
-  <!-- Vault door at end of corridor -->
   <div class="vault-door-wrap" id="vaultDoor">
+    <div class="vault-door-arch-stone"></div>
     <div class="vault-door-frame">
       <div class="vault-door-panel left-panel" id="doorLeft">
-        <div class="door-rivet r1"></div><div class="door-rivet r2"></div>
-        <div class="door-rivet r3"></div><div class="door-rivet r4"></div>
-        <div class="door-rivet r5"></div><div class="door-rivet r6"></div>
-        <div class="door-bar"></div>
+        <div class="door-inner-frame"></div>
+        <div class="door-ring"></div>
+        <div class="door-rivets">
+          <div class="dr r1"></div><div class="dr r2"></div>
+          <div class="dr r3"></div><div class="dr r4"></div>
+          <div class="dr r5"></div><div class="dr r6"></div>
+          <div class="dr r7"></div><div class="dr r8"></div>
+        </div>
       </div>
       <div class="vault-door-panel right-panel" id="doorRight">
-        <div class="door-rivet r1"></div><div class="door-rivet r2"></div>
-        <div class="door-rivet r3"></div><div class="door-rivet r4"></div>
-        <div class="door-rivet r5"></div><div class="door-rivet r6"></div>
-        <div class="door-bar"></div>
+        <div class="door-inner-frame"></div>
+        <div class="door-ring"></div>
+        <div class="door-rivets">
+          <div class="dr r1"></div><div class="dr r2"></div>
+          <div class="dr r3"></div><div class="dr r4"></div>
+          <div class="dr r5"></div><div class="dr r6"></div>
+          <div class="dr r7"></div><div class="dr r8"></div>
+        </div>
       </div>
       <div class="vault-door-glow" id="doorGlow"></div>
     </div>
-    <div class="vault-door-arch-top"></div>
+    <div class="vault-door-floor"></div>
   </div>
 
-  <!-- Caption -->
   <div class="intro-caption-vault">
-    <span class="orn">⚜</span>
+    <span class="ci-orn">⚜</span>
     <h2>A Király Kincstára</h2>
-    <p>Az igazság megmutatkozik…</p>
-    <span class="orn">⚜</span>
+    <p>Az igazság napvilágra kerül…</p>
+    <span class="ci-orn">⚜</span>
   </div>
 
 </div><!-- /intro-vault -->
 
 
 <!-- ══════════════════════════════════════════
-     TREASURY — Kincstár belső tér
+     TREASURY — Kincstár belső
 ══════════════════════════════════════════ -->
 <div id="treasury">
 
-  <!-- Decorative stone arch at top -->
+  <!-- Stone arch top -->
   <div class="treasury-arch">
-    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1440 96" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="archTG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#2a1e10"/>
-          <stop offset="100%" stop-color="#1a1208"/>
+        <linearGradient id="archG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#281808"/>
+          <stop offset="100%" stop-color="#180e04"/>
         </linearGradient>
       </defs>
       <path d="
-        M0,0 L0,70 Q60,15 120,70 L120,0 Z
-        M120,0 L120,70 Q180,15 240,70 L240,0 Z
-        M240,0 L240,70 Q300,15 360,70 L360,0 Z
-        M360,0 L360,70 Q420,15 480,70 L480,0 Z
-        M480,0 L480,70 Q540,15 600,70 L600,0 Z
-        M600,0 L600,70 Q660,15 720,70 L720,0 Z
-        M720,0 L720,70 Q780,15 840,70 L840,0 Z
-        M840,0 L840,70 Q900,15 960,70 L960,0 Z
-        M960,0 M960,70 Q1020,15 1080,70 L1080,0 Z
-        M1080,0 L1080,70 Q1140,15 1200,70 L1200,0 Z
-        M1200,0 L1200,70 Q1260,15 1320,70 L1320,0 Z
-        M1320,0 L1320,70 Q1380,15 1440,70 L1440,0 Z
-      " fill="url(#archTG)" stroke="rgba(180,130,20,.2)" stroke-width="1"/>
+        M0,0 L0,72 Q60,14 120,72 L120,0 Z M120,0 L120,72 Q180,14 240,72 L240,0 Z
+        M240,0 L240,72 Q300,14 360,72 L360,0 Z M360,0 L360,72 Q420,14 480,72 L480,0 Z
+        M480,0 L480,72 Q540,14 600,72 L600,0 Z M600,0 L600,72 Q660,14 720,72 L720,0 Z
+        M720,0 L720,72 Q780,14 840,72 L840,0 Z M840,0 L840,72 Q900,14 960,72 L960,0 Z
+        M960,0 L960,72 Q1020,14 1080,72 L1080,0 Z M1080,0 L1080,72 Q1140,14 1200,72 L1200,0 Z
+        M1200,0 L1200,72 Q1260,14 1320,72 L1320,0 Z M1320,0 L1320,72 Q1380,14 1440,72 L1440,0 Z
+      " fill="url(#archG)" stroke="rgba(175,128,20,.18)" stroke-width="1"/>
+      <circle cx="120"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="240"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="360"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="480"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="600"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="720"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="840"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="960"  cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="1080" cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="1200" cy="72" r="4" fill="rgba(210,155,20,.22)"/>
+      <circle cx="1320" cy="72" r="4" fill="rgba(210,155,20,.22)"/>
     </svg>
   </div>
 
-  <!-- Wall banners -->
+  <!-- Banners & torches -->
   <div class="t-wall-banners left">
     <div class="t-banner" style="--bt:10%"></div>
-    <div class="t-banner" style="--bt:45%"></div>
-    <div class="t-banner" style="--bt:75%"></div>
+    <div class="t-banner" style="--bt:44%"></div>
+    <div class="t-banner" style="--bt:74%"></div>
   </div>
   <div class="t-wall-banners right">
     <div class="t-banner" style="--bt:10%"></div>
-    <div class="t-banner" style="--bt:45%"></div>
-    <div class="t-banner" style="--bt:75%"></div>
+    <div class="t-banner" style="--bt:44%"></div>
+    <div class="t-banner" style="--bt:74%"></div>
   </div>
-
-  <!-- Torch sconces -->
   <div class="t-torch left" style="--tt:14%"><div class="t-flame"><div class="t-glow-orb"></div></div><div class="t-pole"></div></div>
   <div class="t-torch right" style="--tt:14%"><div class="t-flame"><div class="t-glow-orb"></div></div><div class="t-pole"></div></div>
   <div class="t-torch left" style="--tt:50%"><div class="t-flame"><div class="t-glow-orb"></div></div><div class="t-pole"></div></div>
   <div class="t-torch right" style="--tt:50%"><div class="t-flame"><div class="t-glow-orb"></div></div><div class="t-pole"></div></div>
-
-  <!-- Scattered gold coins decoration -->
-  <div class="coin-scatter" id="coinScatter"></div>
 
   <!-- Header -->
   <header class="t-header">
@@ -143,67 +154,72 @@
 
   <main class="t-main">
 
-    <!-- User bar -->
     <div class="t-user-bar">
       <span>Bejelentkezve: <strong id="felhasznalonevMegjelenites">…</strong></span>
       <a href="index.html" class="t-logout">Kijelentkezés</a>
     </div>
 
-    <!-- Back button -->
     <div class="t-back-wrap">
       <a href="fooldal.html" class="t-btn-back">← Vissza a kérdésekhez</a>
     </div>
 
     <div class="t-loading">
-      <div class="loading-hourglass">⌛</div>
-      <p>Az eredmények feltárása…</p>
+      <span class="t-loading-icon">⌛</span>
+      <p>Az eredmények feltárása folyamatban…</p>
     </div>
 
     <div id="eredmenyContainer" style="display:none;">
 
-      <!-- Question title scroll -->
+      <!-- Scroll with question -->
       <div class="question-scroll">
-        <div class="scroll-rod top"></div>
+        <div class="scroll-rod"></div>
         <div class="scroll-body">
-          <div class="scroll-orn">— ⚜ —</div>
+          <span class="scroll-divider">— ⚜ —</span>
           <h2 id="kerdesCim" class="scroll-title"></h2>
-          <div class="scroll-orn">— ✦ —</div>
+          <span class="scroll-divider">— ✦ —</span>
         </div>
-        <div class="scroll-rod bottom"></div>
+        <div class="scroll-rod"></div>
       </div>
 
-      <!-- MEDIEVAL CHART — Stained glass rose window style -->
-      <div class="chart-frame-wrap">
-        <div class="chart-frame-outer">
-          <div class="chart-frame-inner">
-            <div class="chart-label-top">Az Eredmények Könyve</div>
-            <canvas id="pieChart" width="360" height="360"></canvas>
-            <div class="chart-total-badge">
-              <span class="badge-label">Összesen</span>
-              <span class="badge-num" id="osszSzavazat">0</span>
-              <span class="badge-label">szavazat</span>
+      <!-- COIN CHART -->
+      <div class="coin-chart-section">
+        <div class="coin-wrap">
+
+          <div class="coin-outer">
+            <!-- Rim layers (CSS) -->
+            <div class="coin-rim"></div>
+            <!-- Engraved rings -->
+            <div class="coin-border-ring"></div>
+            <div class="coin-inner-ring"></div>
+            <!-- Chart canvas face -->
+            <div class="coin-face">
+              <canvas id="pieChart"></canvas>
             </div>
+            <!-- Total overlay -->
+            <div class="coin-total">
+              <span class="coin-total-num" id="osszSzavazat">0</span>
+              <span class="coin-total-label">szavazat</span>
+            </div>
+            <!-- Metallic sheen -->
+            <div class="coin-shine"></div>
           </div>
-          <!-- Decorative corner ornaments -->
-          <div class="frame-orn tl">✦</div>
-          <div class="frame-orn tr">✦</div>
-          <div class="frame-orn bl">✦</div>
-          <div class="frame-orn br">✦</div>
+
+          <div class="coin-pedestal"></div>
+
+          <!-- Legend below coin -->
+          <div class="coin-legend" id="coinLegend"></div>
+
         </div>
       </div>
 
-      <!-- Detailed results — as a royal ledger -->
+      <!-- Ledger -->
       <div class="ledger-wrap">
-        <div class="ledger-header">
-          <div class="ledger-title-wrap">
-            <span class="ledger-orn">❧</span>
-            <h3 class="ledger-title">A Szavazatok Könyve</h3>
-            <span class="ledger-orn">❧</span>
-          </div>
+        <div class="ledger-head">
+          <div class="ledger-head-line"></div>
+          <h3>A Szavazatok Könyve</h3>
+          <div class="ledger-head-line right"></div>
         </div>
-        <div id="valaszokLista" class="ledger-entries">
-          <!-- Dynamic entries -->
-        </div>
+        <div id="valaszokLista" class="ledger-entries"></div>
       </div>
 
     </div><!-- /eredmenyContainer -->
@@ -211,7 +227,7 @@
   </main>
 
   <footer class="t-footer">
-    <div class="footer-orn">— ⚜ —</div>
+    <div class="t-footer-orn">— ⚜ —</div>
     <h2>Készítette: Kányai Márk &ensp;·&ensp; Léber Bence Bendegúz &ensp;·&ensp; Sveiczer Dávid</h2>
   </footer>
 
