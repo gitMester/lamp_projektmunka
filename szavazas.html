@@ -46,5 +46,13 @@
   </footer>
 
   <script src="szavazas.js"></script>
+
+  <!-- AI Chatbot -->
+  <script>
+    // Az URL-ből olvassa a qid-t, és átadja a chatbotnak
+    const urlParams = new URLSearchParams(window.location.search);
+    window.AIChatConfig = { qid: urlParams.get("qid") ? parseInt(urlParams.get("qid")) : null };
+  </script>
+  <script src="ai-chatbot.js"></script>
 </body>
 </html>
