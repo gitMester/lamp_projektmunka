@@ -4,7 +4,6 @@
  * Szavazós oldal kontextusával kiegészített Claude API hívás
  *
  * Helyezd el: api/ai_chat.php
- * FONTOS: Az ANTHROPIC_API_KEY-t állítsd be lent, vagy környezeti változóként.
  */
 
 session_start();
@@ -15,7 +14,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// OPTIONS preflight kezelés
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
@@ -53,7 +51,6 @@ if ($qid) {
     $stmt->close();
 
     if ($qtext) {
-        // Válaszlehetőségek és szavazatszámok
         $stmt2 = $conn->prepare("
             SELECT a.atext, COUNT(v.vid) AS cnt
             FROM answer a
@@ -108,10 +105,10 @@ if ($allKerdesek) {
     }
 }
 
-// ── Bejelentkezett felhasználó neve (opcionális) ──
+// ── Bejelentkezett felhasználó neve ──
 $username = isset($_SESSION['uname']) ? $_SESSION['uname'] : 'Vendég';
 
-// ── Rendszer prompt összeállítása ──
+// ── Rendszer prompt ──
 $systemPrompt = <<<PROMPT
 Te egy segítőkész AI asszisztens vagy, aki a "(Megették) A Termeszek" nevű középkori témájú szavazós weboldalon segít a felhasználóknak.
 A weboldalon felhasználók különböző kérdésekre szavazhatnak, eredményeket tekinthetnek meg, és új kérdéseket adhatnak hozzá.
@@ -130,7 +127,7 @@ Feladataid:
 - Tartsd meg a középkori, lovagi hangulatot – de ne ess túlzásba
 PROMPT;
 
-// ── Conversation history összeállítása ──
+// ── Conversation history ──
 $messages = [];
 foreach ($conversation as $msg) {
     if (isset($msg['role'], $msg['content'])) {
@@ -142,7 +139,7 @@ $messages[] = ['role' => 'user', 'content' => $userMessage];
 
 // ── Anthropic API hívás ──
 $payload = json_encode([
-    'model'      => 'claude-haiku-4-5-20251001',  // gyors és olcsó modell chatbothoz
+    'model'      => 'claude-haiku-4-5-20251001',
     'max_tokens' => 512,
     'system'     => $systemPrompt,
     'messages'   => $messages,
