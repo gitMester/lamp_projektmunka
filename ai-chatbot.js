@@ -36,7 +36,7 @@
     btn.className = 'ai-chat-toggle';
     btn.setAttribute('aria-label', 'AI Segítő megnyitása');
     btn.innerHTML = `
-      <span class="ai-chat-toggle-icon">🤖</span>
+      <span class="ai-chat-toggle-icon">🦾🥷🕵️‍♀️👨‍🎓🕵️‍♂️🕵️🧙‍♂️</span>
       <span class="ai-chat-toggle-label">AI Segítő</span>
       <span class="ai-chat-unread" id="ai-unread" style="display:none">1</span>
     `;
