@@ -89,7 +89,7 @@
     // Eseménykezelők
     btn.addEventListener('click', toggleChat);
     document.getElementById('ai-chat-close').addEventListener('click', closeChat);
-    document.getElementById('ai-chat-send').addEventListener('click', sendMessage);
+    document.getElementById('ai-chat-send').btn.addEventListener('click', () => sendMessage());;
 
     const input = document.getElementById('ai-chat-input');
     input.addEventListener('keydown', e => {
