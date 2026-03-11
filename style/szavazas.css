@@ -781,7 +781,8 @@ main {
   background: linear-gradient(180deg, var(--blue-mid) 0%, #1a2a50 80%);
   border-radius: 5px 5px 10px 10px;
   transform-origin: top center;
-  transition: transform 0.15s ease-out;
+  transform: rotate(0deg);
+  transition: transform 0.12s ease-out;
   z-index: 3;
 }
 
@@ -1539,4 +1540,80 @@ footer::before {
     background: white;
   }
   .question-text, .answer-label { color: black; }
+}
+/* ─── GLOBAL-STYLES OVERRIDE (prevent glassmorphism bleed) ──────────── */
+/* These rules ensure global-styles.css does not override the medieval theme */
+
+body {
+  font-family: 'Crimson Text', Georgia, serif !important;
+  background-color: #1a1208 !important;
+  color: var(--parchment) !important;
+  display: block !important;
+  align-items: unset !important;
+  justify-content: unset !important;
+}
+
+header {
+  background: linear-gradient(180deg, #0a0703 0%, #1a1005 30%, #2a1a08 70%, #1a1005 100%) !important;
+  backdrop-filter: none !important;
+  border-bottom: 4px solid var(--gold-dark) !important;
+  padding: 0 !important;
+  position: relative !important;
+  top: unset !important;
+  box-shadow: 0 4px 0 var(--gold), 0 8px 0 var(--gold-dark), 0 10px 30px rgba(0,0,0,0.8) !important;
+}
+
+header h1 {
+  font-family: 'Cinzel', serif !important;
+  font-size: clamp(1.2rem, 2.5vw, 2rem) !important;
+  color: var(--gold-bright) !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+}
+
+nav a, a.nav-link {
+  color: var(--parchment) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+}
+
+nav a::after, a.nav-link::after {
+  display: none !important;
+}
+
+footer {
+  background: linear-gradient(0deg, #0a0703 0%, #1a1005 50%, #2a1a08 100%) !important;
+  backdrop-filter: none !important;
+  border-top: 3px solid var(--gold-dark) !important;
+}
+
+footer h2, footer p {
+  font-family: 'Crimson Text', serif !important;
+  color: var(--parchment-dark) !important;
+}
+
+.glass-card {
+  background: linear-gradient(160deg, rgba(42,26,10,0.97) 0%, rgba(58,36,12,0.95) 40%, rgba(35,22,8,0.98) 100%) !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 4px !important;
+}
+
+.glass-card:hover {
+  transform: none !important;
+  background: linear-gradient(160deg, rgba(42,26,10,0.97) 0%, rgba(58,36,12,0.95) 40%, rgba(35,22,8,0.98) 100%) !important;
+}
+
+.message {
+  display: none;
+}
+
+button, .btn, input[type="submit"] {
+  background: none !important;
+  color: inherit !important;
+  border-radius: 3px !important;
+  font-family: inherit !important;
 }

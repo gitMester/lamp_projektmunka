@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Szavazás – A Királyság Piacán</title>
-  <link rel="stylesheet" href="style/global-styles.css">
   <link rel="stylesheet" href="style/szavazas.css">
 </head>
 <body>
@@ -114,8 +113,9 @@
     function updateArm(targetEl) {
       if (!arm || !merchant) return;
       const armRect   = arm.getBoundingClientRect();
-      const armCenterX = armRect.left + armRect.width / 2;
-      const armCenterY = armRect.top;
+      // Pivot is the top-center of the arm
+      const pivotX = armRect.left + armRect.width / 2;
+      const pivotY = armRect.top;
 
       let targetX, targetY;
       if (targetEl) {
@@ -123,28 +123,36 @@
         targetX = tRect.left + tRect.width / 2;
         targetY = tRect.top  + tRect.height / 2;
       } else {
-        targetX = armCenterX;
-        targetY = armCenterY + 60;
+        // Natural hang: point slightly downward
+        targetX = pivotX;
+        targetY = pivotY + 80;
       }
 
-      const dx = targetX - armCenterX;
-      const dy = targetY - armCenterY;
-      let angle = Math.atan2(dx, -dy) * (180 / Math.PI);
-      // Clamp so arm stays reasonable
-      angle = Math.max(-70, Math.min(70, angle));
+      const dx = targetX - pivotX;
+      const dy = targetY - pivotY;
+      let angle = Math.atan2(dx, dy) * (180 / Math.PI);
+      angle = Math.max(-80, Math.min(80, angle));
       arm.style.transform = `rotate(${angle}deg)`;
     }
 
     // Track mouse for idle pointing
     document.addEventListener('mousemove', function (e) {
-      if (!arm) return;
+      if (!arm || !merchant) return;
+      // Only track cursor if no answer is hovered/selected
+      const checked = document.querySelector('.answer-item input[type="radio"]:checked');
+      const hovered = document.querySelector('.answer-item:hover');
+      if (checked || hovered) return;
+
       const armRect    = arm.getBoundingClientRect();
-      const armCenterX = armRect.left + armRect.width / 2;
-      const armCenterY = armRect.top;
-      const dx = e.clientX - armCenterX;
-      const dy = e.clientY - armCenterY;
-      let angle = Math.atan2(dx, -dy) * (180 / Math.PI);
-      angle = Math.max(-70, Math.min(70, angle));
+      // Pivot point is top-center of the arm element
+      const pivotX = armRect.left + armRect.width / 2;
+      const pivotY = armRect.top;
+      const dx = e.clientX - pivotX;
+      const dy = e.clientY - pivotY;
+      let angle = Math.atan2(dx, dy) * (180 / Math.PI);
+      // 0 = pointing down, we want 0 = natural hang, so shift by 0
+      // Clamp to reasonable range
+      angle = Math.max(-80, Math.min(80, angle));
       arm.style.transform = `rotate(${angle}deg)`;
     });
 
