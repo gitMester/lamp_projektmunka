@@ -3,11 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Szavazás</title>
+  <title>Szavazás – A Királyság Piacán</title>
   <link rel="stylesheet" href="style/global-styles.css">
   <link rel="stylesheet" href="style/szavazas.css">
 </head>
 <body>
+
+  <!-- ═══ TORCHES ═══ -->
+  <div class="torch torch-left">
+    <div class="torch-head">
+      <div class="torch-flame"></div>
+      <div class="torch-smoke"></div>
+    </div>
+    <div class="torch-stick"></div>
+  </div>
+  <div class="torch torch-right">
+    <div class="torch-head">
+      <div class="torch-flame"></div>
+      <div class="torch-smoke"></div>
+    </div>
+    <div class="torch-stick"></div>
+  </div>
+
+  <!-- ═══ HANGING BANNERS ═══ -->
+  <div class="hanging-banner hanging-banner-left">
+    <div class="banner-rope"></div>
+    <div class="banner-flag banner-flag-left"></div>
+  </div>
+  <div class="hanging-banner hanging-banner-right">
+    <div class="banner-rope"></div>
+    <div class="banner-flag banner-flag-right"></div>
+  </div>
+
+  <!-- ═══ HEADER ═══ -->
   <header>
     <div>
       <h1>(Megették) A Termeszek</h1>
@@ -18,38 +46,268 @@
     </div>
   </header>
 
+  <!-- ═══ MAIN ═══ -->
   <main>
     <div class="user-info">
-      <p>Bejelentkezve: <strong id="felhasznalonevMegjelenites"></strong> 
+      <p>Bejelentkezve:&nbsp;<strong id="felhasznalonevMegjelenites"></strong>
         <a href="index.html" class="logout-link">Kijelentkezés</a>
       </p>
     </div>
 
-    <div class="loading">Kérdés betöltése...</div>
+    <div class="loading" id="loadingMsg">Kérdés betöltése...</div>
 
-    <div id="kerdesContainer" style="display: none;">
-      <div class="voting-card glass-card">
-        <h2 id="kerdesText" class="question-text"></h2>
+    <div id="kerdesContainer" style="display: none; position: relative;">
 
-        <form id="szavazasForm" class="voting-form">
-          <div id="valaszokContainer" class="answers-list"></div>
-          <button type="submit" class="btn-vote">Szavazok</button>
-        </form>
+      <!-- Merchant figure -->
+      <div class="merchant-container" id="merchantContainer">
+        <div class="merchant-body">
+          <div class="merchant-hat">
+            <div class="merchant-feather"></div>
+          </div>
+          <div class="merchant-head"></div>
+          <div class="merchant-torso"></div>
+          <div class="merchant-arm-left"></div>
+          <!-- This arm points at answers -->
+          <div class="merchant-arm-pointer" id="merchantArm">
+            <div class="merchant-hand"></div>
+          </div>
+          <div class="merchant-legs">
+            <div class="merchant-leg"></div>
+            <div class="merchant-leg"></div>
+          </div>
+        </div>
       </div>
 
-      <div id="uzenet" class="message"></div>
+      <div class="voting-card glass-card">
+        <div class="stall-counter">
+          <h2 id="kerdesText" class="question-text"></h2>
+
+          <form id="szavazasForm" class="voting-form">
+            <div class="btn-vote-wrap">
+              <div id="valaszokContainer" class="answers-list"></div>
+            </div>
+            <button type="submit" class="btn-vote">Szavazok</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="uzenet" class="message" style="display:none;"></div>
     </div>
   </main>
 
+  <!-- ═══ FOOTER ═══ -->
   <footer>
     <h2>Készítette: Kányai Márk, Léber Bence Bendegúz, Sveiczer Dávid</h2>
   </footer>
 
   <script src="szavazas.js"></script>
 
-  <!-- AI Chatbot -->
+  <!-- ═══ MEDIEVAL ENHANCEMENTS SCRIPT ═══ -->
   <script>
-    // Az URL-ből olvassa a qid-t, és átadja a chatbotnak
+  (function () {
+    'use strict';
+
+    /* ── Merchant arm tracking ─────────────────────────────────────── */
+    const arm = document.getElementById('merchantArm');
+    const merchant = document.getElementById('merchantContainer');
+
+    function updateArm(targetEl) {
+      if (!arm || !merchant) return;
+      const armRect   = arm.getBoundingClientRect();
+      const armCenterX = armRect.left + armRect.width / 2;
+      const armCenterY = armRect.top;
+
+      let targetX, targetY;
+      if (targetEl) {
+        const tRect = targetEl.getBoundingClientRect();
+        targetX = tRect.left + tRect.width / 2;
+        targetY = tRect.top  + tRect.height / 2;
+      } else {
+        targetX = armCenterX;
+        targetY = armCenterY + 60;
+      }
+
+      const dx = targetX - armCenterX;
+      const dy = targetY - armCenterY;
+      let angle = Math.atan2(dx, -dy) * (180 / Math.PI);
+      // Clamp so arm stays reasonable
+      angle = Math.max(-70, Math.min(70, angle));
+      arm.style.transform = `rotate(${angle}deg)`;
+    }
+
+    // Track mouse for idle pointing
+    document.addEventListener('mousemove', function (e) {
+      if (!arm) return;
+      const armRect    = arm.getBoundingClientRect();
+      const armCenterX = armRect.left + armRect.width / 2;
+      const armCenterY = armRect.top;
+      const dx = e.clientX - armCenterX;
+      const dy = e.clientY - armCenterY;
+      let angle = Math.atan2(dx, -dy) * (180 / Math.PI);
+      angle = Math.max(-70, Math.min(70, angle));
+      arm.style.transform = `rotate(${angle}deg)`;
+    });
+
+    /* ── Sparkle particles on selection ──────────────────────────── */
+    function spawnSparkles(el) {
+      const rect = el.getBoundingClientRect();
+      const symbols = ['✦', '✧', '⭐', '★', '✨', '💫', '⚜'];
+      for (let i = 0; i < 8; i++) {
+        const span = document.createElement('span');
+        span.className = 'magic-particle';
+        span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        span.style.cssText = `
+          left: ${rect.left + Math.random() * rect.width}px;
+          top:  ${rect.top  + Math.random() * rect.height}px;
+          animation-delay: ${Math.random() * 0.3}s;
+          font-size: ${0.6 + Math.random() * 0.8}rem;
+        `;
+        document.body.appendChild(span);
+        setTimeout(() => span.remove(), 1000);
+      }
+    }
+
+    /* ── Add shimmer + interaction to answer items ────────────────── */
+    function enhanceAnswers() {
+      const labels = document.querySelectorAll('.answer-label');
+      labels.forEach((label, i) => {
+        // Add shimmer child if not present
+        if (!label.querySelector('.shimmer-layer')) {
+          const shimmer = document.createElement('div');
+          shimmer.className = 'shimmer-layer';
+          label.appendChild(shimmer);
+        }
+
+        // Number labels
+        const numSpan = document.createElement('span');
+        numSpan.className = 'answer-num';
+        numSpan.textContent = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'][i] || (i + 1);
+        numSpan.style.cssText = `
+          font-family: 'Cinzel', serif;
+          font-size: 0.75rem;
+          color: var(--gold-dark);
+          min-width: 20px;
+          text-align: center;
+          flex-shrink: 0;
+        `;
+        label.insertBefore(numSpan, label.firstChild);
+      });
+
+      /* Radio change → sparkles + arm point */
+      document.querySelectorAll('.answer-item input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+          const label = this.nextElementSibling;
+          spawnSparkles(label);
+
+          // Point merchant arm at this label
+          updateArm(label);
+
+          // Animate the item
+          const item = this.closest('.answer-item');
+          item.classList.add('just-selected');
+          setTimeout(() => item.classList.remove('just-selected'), 600);
+        });
+      });
+
+      /* Hover → arm follows */
+      document.querySelectorAll('.answer-item').forEach(item => {
+        item.addEventListener('mouseenter', function () {
+          updateArm(this.querySelector('.answer-label'));
+        });
+        item.addEventListener('mouseleave', function () {
+          // Return to selected option or neutral
+          const checked = document.querySelector('.answer-item input[type="radio"]:checked');
+          if (checked) {
+            updateArm(checked.nextElementSibling);
+          } else {
+            updateArm(null);
+          }
+        });
+      });
+    }
+
+    /* ── Observe when answers are injected by szavazas.js ─────────── */
+    const container = document.getElementById('valaszokContainer');
+    const kerdesContainer = document.getElementById('kerdesContainer');
+
+    if (container && kerdesContainer) {
+      const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          if (mutation.type === 'childList' && container.children.length > 0) {
+            enhanceAnswers();
+          }
+          if (mutation.type === 'attributes') {
+            const el = mutation.target;
+            if (el && el.style && el.style.display !== 'none') {
+              enhanceAnswers();
+            }
+          }
+        });
+      });
+
+      observer.observe(container, { childList: true });
+      observer.observe(kerdesContainer, { attributes: true, attributeFilter: ['style'] });
+    }
+
+    // Also run after a short delay as fallback
+    setTimeout(enhanceAnswers, 800);
+    setTimeout(enhanceAnswers, 2000);
+
+    /* ── Form submit sparkle explosion ───────────────────────────── */
+    document.getElementById('szavazasForm')?.addEventListener('submit', function () {
+      const btn = this.querySelector('.btn-vote');
+      if (!btn) return;
+      const rect = btn.getBoundingClientRect();
+      const bigSymbols = ['⚔', '⚜', '👑', '🏆', '✦'];
+      for (let i = 0; i < 20; i++) {
+        const span = document.createElement('span');
+        span.className = 'magic-particle';
+        span.textContent = bigSymbols[Math.floor(Math.random() * bigSymbols.length)];
+        span.style.cssText = `
+          left: ${rect.left + Math.random() * rect.width}px;
+          top:  ${rect.top + Math.random() * rect.height}px;
+          animation-delay: ${Math.random() * 0.5}s;
+          font-size: ${1 + Math.random() * 1.5}rem;
+        `;
+        document.body.appendChild(span);
+        setTimeout(() => span.remove(), 1200);
+      }
+    });
+
+    /* ── Candle/torch ambient particle system ─────────────────────── */
+    function emitEmber() {
+      const torches = document.querySelectorAll('.torch-flame');
+      torches.forEach(torch => {
+        const rect = torch.getBoundingClientRect();
+        const ember = document.createElement('span');
+        ember.style.cssText = `
+          position: fixed;
+          left: ${rect.left + rect.width / 2 + (Math.random() - 0.5) * 10}px;
+          top: ${rect.top}px;
+          width: ${2 + Math.random() * 3}px;
+          height: ${2 + Math.random() * 3}px;
+          border-radius: 50%;
+          background: ${Math.random() > 0.5 ? '#ff8c00' : '#ffcc00'};
+          pointer-events: none;
+          z-index: 200;
+          transition: all ${0.8 + Math.random() * 0.8}s ease-out;
+        `;
+        document.body.appendChild(ember);
+        requestAnimationFrame(() => {
+          ember.style.transform = `translate(${(Math.random()-0.5)*30}px, ${-40 - Math.random()*40}px)`;
+          ember.style.opacity = '0';
+        });
+        setTimeout(() => ember.remove(), 1600);
+      });
+    }
+
+    setInterval(emitEmber, 400);
+
+  })();
+  </script>
+
+  <!-- AI Chatbot config -->
+  <script>
     const urlParams = new URLSearchParams(window.location.search);
     window.AIChatConfig = { qid: urlParams.get("qid") ? parseInt(urlParams.get("qid")) : null };
   </script>
