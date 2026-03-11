@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let aktualisKerdes = null;
 
-  // URL paraméter olvasása
   const urlParams = new URLSearchParams(window.location.search);
   const qidParam = urlParams.get('qid');
 
@@ -22,26 +21,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-  /* Kérdés betöltése – API mappából */
+  /* Kérdés betöltése */
   const questionUrl = qidParam ? `./api/question.php?qid=${qidParam}` : './api/question.php';
-  
+
   fetch(questionUrl)
     .then(r => r.json())
     .then(data => {
-      if (data.error) throw new Error(data.error);  
+      if (data.error) throw new Error(data.error);
 
       aktualisKerdes = data;
       kerdesText.textContent = data.qtext;
       valaszokContainer.innerHTML = '';
 
       data.answers.forEach(a => {
+        // ✅ JAVÍTÁS: answer-item + answer-label osztályok, hogy a CSS működjön
+        const item = document.createElement('div');
+        item.className = 'answer-item';
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'valasz';
+        radio.value = a.aid;
+
         const label = document.createElement('label');
-        label.className = 'valasz-option';
-        label.innerHTML = `
-          <input type="radio" name="valasz" value="${a.aid}">
-          ${a.atext}
-        `;
-        valaszokContainer.appendChild(label);
+        label.className = 'answer-label';
+        label.textContent = a.atext;
+
+        item.appendChild(radio);
+        item.appendChild(label);
+        valaszokContainer.appendChild(item);
       });
 
       loading.style.display = 'none';
@@ -58,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selected = document.querySelector('input[name="valasz"]:checked');
     if (!selected) {
       uzenet.textContent = 'Válassz egy lehetőséget!';
-      uzenet.className = 'error';
+      uzenet.className = 'message error';
       uzenet.style.display = 'block';
       return;
     }
@@ -76,10 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (result.error) {
       uzenet.textContent = result.error;
-      uzenet.className = 'error';
+      uzenet.className = 'message error';
     } else {
       uzenet.textContent = result.message;
-      uzenet.className = 'success';
+      uzenet.className = 'message success';
       document.querySelectorAll('input[name="valasz"]').forEach(i => i.disabled = true);
       e.target.querySelector('button').disabled = true;
     }
