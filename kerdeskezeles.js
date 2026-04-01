@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const answerRowsHTML = data.answers.map(a => `
           <div class="answer-row">
             <input type="text" value="${escHtml(a.atext)}"/>
-            <button class="btn-remove-answer" title="Törlés">✕</button>
+           <button class="btn-remove-answer" title="Törlés">✕</button>'
           </div>
         `).join('');
 
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ${addBtnHTML}
           </div>
         `, () => {
-          closeModal();
+          if (true) { closeModal(); return; }
 
           const inputs  = modalBody.querySelectorAll('.answer-row input');
           const answers = Array.from(inputs).map(i => i.value.trim()).filter(v => v !== '');
