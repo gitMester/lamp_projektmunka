@@ -1,7 +1,3 @@
-/* ═══════════════════════════════════════════════════════════
-   KIRÁLYSÁG — script.js  (Napsütéses)
-═══════════════════════════════════════════════════════════ */
-
 'use strict';
 
 const T = {
@@ -181,8 +177,8 @@ setTimeout(() => {
             <span class="vote-badge">${k.vote_count} szavazat</span>
           </div>
           <div class="card-actions">
-            <button class="btn-vote" data-qid="${k.qid}">⚔ Szavazás</button>
-            <a href="eredmenyek.html?qid=${k.qid}" class="btn-results">📜 Eredmények</a>
+            <button class="btn-vote" data-qid="${k.qid}">Szavazás</button>
+            <a href="eredmenyek.html?qid=${k.qid}" class="btn-results">Eredmények</a>
           </div>`;
         lista.appendChild(card);
       });

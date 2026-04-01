@@ -316,14 +316,10 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
         if (data.error) throw new Error(data.error);
 
-        const warningHTML = voteCount > 0
-          ? `<div class="warning-box">⚠️ Erre a kérdésre már érkezett szavazat — a válaszok nem módosíthatók.</div>`
-          : '';
-
         const answerRowsHTML = data.answers.map(a => `
           <div class="answer-row">
-            <input type="text" value="${escHtml(a.atext)}" ${voteCount > 0 ? 'disabled' : ''} />
-            ${voteCount === 0 ? '<button class="btn-remove-answer" title="Törlés">✕</button>' : ''}
+            <input type="text" value="${escHtml(a.atext)}"/>
+            <button class="btn-remove-answer" title="Törlés">✕</button>
           </div>
         `).join('');
 
