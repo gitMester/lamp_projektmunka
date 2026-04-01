@@ -233,8 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 ✏️ Kérdés szerkesztése
               </button>
               <button class="btn btn-edit-a"
-                data-qid="${kerdes.qid}"
-                data-votes="${kerdes.vote_count}">
+                data-qid="${kerdes.qid}">
                 📝 Válaszok szerkesztése
               </button>
               <a href="eredmenyek.html?qid=${kerdes.qid}" class="btn btn-results-link">
@@ -259,8 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         lista.querySelectorAll('.btn-edit-a').forEach(btn => {
           btn.addEventListener('click', () => valaszokSzerkeszt(
-            parseInt(btn.dataset.qid),
-            parseInt(btn.dataset.votes)
+            parseInt(btn.dataset.qid)
           ));
         });
         lista.querySelectorAll('.btn-delete').forEach(btn => {
@@ -318,23 +316,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const answerRowsHTML = data.answers.map(a => `
           <div class="answer-row">
-            <input type="text" value="${escHtml(a.atext)}"/>
-           <button class="btn-remove-answer" title="Törlés">✕</button>'
+            <input type="text" value="${escHtml(a.atext)}" />
+            <button class="btn-remove-answer" title="Törlés">✕</button>
           </div>
         `).join('');
 
-        const addBtnHTML = `<button class="btn-add-answer" id="ujValaszBtn">+ Új válasz hozzáadása</button>`;
-
         openModal('Válaszok szerkesztése', `
-          ${warningHTML}
           <div class="form-group">
             <label>Válaszlehetőségek</label>
             <div class="answer-inputs" id="answerInputs">${answerRowsHTML}</div>
-            ${addBtnHTML}
+            <button class="btn-add-answer" id="ujValaszBtn">+ Új válasz hozzáadása</button>
           </div>
         `, () => {
-          closeModal();
-
           const inputs  = modalBody.querySelectorAll('.answer-row input');
           const answers = Array.from(inputs).map(i => i.value.trim()).filter(v => v !== '');
 
