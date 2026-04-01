@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ── EDIT ANSWERS ── */
-  function valaszokSzerkeszt(qid, voteCount) {
+  function valaszokSzerkeszt(qid) {
     fetch(`./api/question.php?qid=${qid}`)
       .then(r => r.json())
       .then(data => {
@@ -323,9 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         `).join('');
 
-        const addBtnHTML = voteCount === 0
-          ? `<button class="btn-add-answer" id="ujValaszBtn">+ Új válasz hozzáadása</button>`
-          : '';
+        const addBtnHTML = `<button class="btn-add-answer" id="ujValaszBtn">+ Új válasz hozzáadása</button>`;
 
         openModal('Válaszok szerkesztése', `
           ${warningHTML}
@@ -335,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ${addBtnHTML}
           </div>
         `, () => {
-          if (voteCount > 0) { closeModal(); return; }
+          closeModal();
 
           const inputs  = modalBody.querySelectorAll('.answer-row input');
           const answers = Array.from(inputs).map(i => i.value.trim()).filter(v => v !== '');
