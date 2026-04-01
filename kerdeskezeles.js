@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ${addBtnHTML}
           </div>
         `, () => {
-          if (true) { closeModal(); return; }
+          closeModal();
 
           const inputs  = modalBody.querySelectorAll('.answer-row input');
           const answers = Array.from(inputs).map(i => i.value.trim()).filter(v => v !== '');
