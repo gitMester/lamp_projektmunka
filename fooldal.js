@@ -173,7 +173,6 @@ setTimeout(() => {
         const card = document.createElement('div');
         card.className = 'question-card';
         card.style.setProperty('--cd', `${7.2 + i * 0.14}s`);
-        k.vote_count = k.vote_count - 1;
         card.innerHTML = `
           <span class="card-orn tl">❧</span>
           <span class="card-orn tr">❧</span>
